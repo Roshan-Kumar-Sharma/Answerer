@@ -1,0 +1,116 @@
+* {
+    box-sizing: border-box;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* overflow: scroll; */
+}
+
+#container-items {
+    /* width: 1000px; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.items {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 200px;
+    border: 1px solid black;
+    border-collapse: separate;
+    /* text-align: center; */
+    margin: 5px;
+    font-size: xx-large;
+    padding: 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* adding css to demo_addQues_page.ejs */
+#add-question-container {
+    /* border: 1px solid brown; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+textarea {
+    resize: none;
+    font-size: 1rem;
+    width: 30rem;
+}
+
+textarea[name="question"] {
+    width: 47rem;
+    height: 3rem;
+    margin-top: 0.5rem;
+}
+
+textarea.answer {
+    width: 47rem;
+    height: 7rem;
+    margin-top: 0.5rem;
+}
+
+label {
+    font-size: xx-large;
+}
+
+.single-item {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#other-fields {
+    display: flex;
+    flex-direction: column;
+    width: inherit;
+}
+
+.double-elem {
+    display: flex;
+    width: inherit;
+    justify-content: space-around;
+    margin-top: 5px;
+}
+
+#add-post-form {
+    display: flex;
+    flex-direction: column;
+    width: 56rem;
+    /* margin: 1px solid blue; */
+    background-color: aquamarine;
+    justify-content: center;
+    align-items: center;
+}
+
+/* .drop-down{
+
+} */
+
+.input-style {
+    font-size: 1rem;
+    padding: 0.5rem;
+}
+
+#submit-post {
+    margin-top: 0.5rem;
+}
+
+.hide {
+    display: none;
+}

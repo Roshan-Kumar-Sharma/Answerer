@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Question</title>
+    <!-- <link rel="stylesheet" href="../public/css/demo_style_page.css"> -->
+    <!-- <script src="https://kit.fontawesome.com/f72b2c9263.js" crossorigin="anonymous"></script> -->
+
+    <!-- Font Awesome CDN -->
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <!-- Bootstrap v5.1.3 CDN -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="bg-dark container d-flex justify-content-center align-items-center flex-column text-white">
+        <h1 id="heading" class="display-3">Add Question</h1>
+        <form class="" id="addQnA" action="#" method="post">
+            <div class="mb-3">
+                <label for="question" class="form-label">Question</label>
+                <textarea type="text" class="form-control" id="question" placeholder="Enter Question..." name="answers" rows="3" required></textarea>
+            </div>
+    
+            <div id="answers-container">
+                <div class="mb-3 answer-block">
+                    <label for="answer1" class="form-label">Add Answer 1 :</label>
+                    <textarea type="text" class="form-control" id="answer1" placeholder="Enter First Answer..." name="answers" rows="10"></textarea>
+                </div>
+    
+                <div class="mb-3 d-none answer-block">
+                    <label for="answer2" class="form-label">Add Answer 2 :</label>
+                    <textarea type="text" class="form-control" id="answer2" placeholder="Enter Second Answer..." name="answers" rows="10"></textarea>
+                </div>
+    
+                <div class="mb-3 d-none answer-block">
+                    <label for="answer3" class="form-label">Add Answer 3 :</label>
+                    <textarea type="text" class="form-control" id="answer3" placeholder="Enter Third Answer..." name="answers" rows="10"></textarea>
+                </div>
+            </div>
+    
+            <div id="add-delete-button" class="d-flex mb-3 justify-content-center align-items-center">
+                <a style="color: inherit;" href="#">
+                    <div id="add">
+                        <i class="fas fa-plus-circle fa-3x"></i>
+                    </div>
+                </a>
+                <a style="color: inherit;" href="#">
+                    <div id="delete">
+                        <i class="fas fa-minus-circle fa-3x"></i>
+                    </div>
+                </a>
+            </div>
+    
+            <div class="row mb-3">
+                <div class="col mb-3">
+                    <label class="form-label">Subject</label>
+                    <input id="subject" class="form-control" list="subject-list" name="subject" placeholder="Add/Select Subject Name..." autocomplete="off">
+                    <datalist id="subject-list">
+                        <option value="Subject 1">
+                        <option value="Subject 2">
+                    </datalist>
+                </div>
+                <div class="col mb-3">
+                    <label class="form-label">Topic</label>
+                    <input id="topic" class="form-control" list="topic-list" name="topic" placeholder="Add/Select Topic Name..." autocomplete="off">
+                    <datalist id="topic-list">
+                        <option value="Topic 1">
+                        <option value="Topic 2">
+                    </datalist>
+                </div>
+            </div>
+    
+            <div class="row mb-3">
+                <div class="col mb-3"> 
+                    <label for="username" class="form-label">Username :</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Tell us who you are..." autocomplete="off">
+                </div>
+                <div class="col mb-3">
+                    <label for="rating" class="form-label">Rating :</label>
+                    <select id="rating" class="form-select" aria-label="Default select example">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <input class="btn btn-secondary" type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+
+    <!-- <div id="add-question-container">
+        <h1>
+            <%= heading %>
+        </h1>
+        <form id="add-post-form" action="<%= form_link %>" method="POST">
+            <div>
+                <label for="question">Question</label><br>
+                <textarea type="text" id="question" name="question" required></textarea>
+            </div>
+
+            <div id="answers-container">
+                <div class="answer-block">
+                    <label for="answer1">Answer : 1</label><br>
+                    <textarea class="answer" type="text" id="answer1" name="answers"></textarea>
+                </div>
+
+                <div class="answer-block hide">
+                    <label for="answer2">Answer : 2</label><br>
+                    <textarea class="answer" type="text" id="answer2" name="answers"></textarea>
+                </div>
+
+                <div class="answer-block hide">
+                    <label for="answer3">Answer : 3</label><br>
+                    <textarea class="answer" type="text" id="answer3" name="answers"></textarea>
+                </div>
+            </div>
+
+            <div id="add-delete-button" class="single-item">
+                <div id="add">
+                    <i class="fas fa-plus-circle fa-3x"></i>
+                </div>
+                <div id="delete">
+                    <i class="fas fa-minus-circle fa-3x"></i>
+                </div>
+            </div>
+
+            <div id="other-fields">
+                <div class="double-elem">
+                    <div id="subject-container">
+                        <label>Subject :</label>
+                        <input class="input-style" list="subject" name="subject" placeholder="add/select a subject"
+                            autocomplete="off" required />
+                        <datalist id="subject">
+                            <% for(let i=0; i<subjects.length; i++) {%>
+                                <option value="<%= `${subjects[i]}` %>"></option>
+                                <% } %>
+                        </datalist>
+                    </div>
+
+                    <div id="topic-container">
+                        <label>Topic :</label>
+                        <input class="input-style" list="topic" name="topic" placeholder="add topic name"
+                            autocomplete="off" required />
+                    </div>
+                </div>
+                <div class="double-elem">
+                    <div>
+                        <label>Username :</label>
+                        <input class="input-style" name="username" placeholder="Tell us who you are..."
+                            autocomplete="off" />
+                    </div>
+
+                    <div>
+                        <label>Rating :</label>
+                        <input class="input-style" list="rating" name="rating" placeholder="give rating..."
+                            autocomplete="off" required />
+                        <datalist id="rating">
+                            <option value="1">
+                            <option value="2">
+                            <option value="3">
+                            <option value="4">
+                            <option value="5">
+                        </datalist>
+                    </div>
+                </div>
+            </div>
+            <input class="input-style" id="submit-post" type="submit" value="Add This Question">
+        </form>
+    </div> -->
+
+    <!-- Bootstrap v5.1.3 JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <script src="../public/js/demo_addQues_page.js"></script>
+</body>
+
+</html>

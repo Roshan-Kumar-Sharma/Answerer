@@ -1,0 +1,52 @@
+let currAnswerBlock = 1;
+
+// const form = document.getElementById("add-post-form");
+// form.addEventListener("submit", async function (e) {
+//     e.preventDefault();
+//     var data = new FormData(form);
+//     let formData = { ...data };
+//     for (const [name, value] of data) {
+//         console.log(name, value);
+//     }
+//     const res = await fetch("http://localhost:2000/api/v1/posts/add", {
+//         method: "POST",
+//         body: JSON.stringify(formData),
+//         headers: {
+//             "content-type": "application/json",
+//         },
+//     });
+//     const resData = await res.json();
+//     console.log(resData);
+//     // windo
+// });
+
+console.log(addQnA);
+
+const addAnswer = document.getElementById("add");
+const delAnswer = document.getElementById("delete");
+
+const answerBlocks = document.getElementsByClassName("answer-block");
+
+addAnswer.addEventListener("click", addAnswerBlock);
+delAnswer.addEventListener("click", delAnswerBlock);
+
+function addAnswerBlock(e) {
+    e.preventDefault();
+    for (let i = 1; i < answerBlocks.length; i++) {
+        if (answerBlocks[i].classList.contains("d-none")) {
+            answerBlocks[i].classList.toggle("d-none");
+            return;
+        }
+    }
+}
+
+function delAnswerBlock(e) {
+    e.preventDefault();
+    for (let i = answerBlocks.length - 1; i >= 1; i--) {
+        if (!answerBlocks[i].classList.contains("d-none")) {
+            answerBlocks[i].classList.toggle("d-none");
+            answerBlocks[i].lastElementChild.value = "";
+            return;
+        }
+    }
+}

@@ -1,0 +1,6 @@
+node_modules
+.env
+rest.http
+toBeDeletedPages
+*.zip
+*.vscode
