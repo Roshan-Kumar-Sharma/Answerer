@@ -17,25 +17,33 @@ exports.getPosts = async (req, res, next) => {
     query = query.limit(limit);
   }
 
-  const queryResult = await query.exec();
-  const result = queryResult.map(
-    ({ question, answers, subject, topic, username, rating, ...rest }) => {
-      return {
-        id: rest._doc._id,
-        question,
-        answers,
-        subject,
-        topic,
-        username,
-        rating,
-      };
-    }
-  );
+  try {
+    const queryResult = await query.exec();
 
-  return res.json({
-    message: "Fetched successfully",
-    data: result,
-  });
+    const result = queryResult.map(
+      ({ question, answers, subject, topic, username, rating, ...rest }) => {
+        return {
+          id: rest._doc._id,
+          question,
+          answers,
+          subject,
+          topic,
+          username,
+          rating,
+        };
+      }
+    );
+
+    return res.json({
+      message: "Fetched successfully",
+      data: result,
+    });
+  } catch (e) {
+    return res.json({
+      error: true,
+      message: "Unable to fetch posts",
+    });
+  }
 };
 
 module.exports.addPost = async (req, res, next) => {
