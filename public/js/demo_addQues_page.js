@@ -1,24 +1,36 @@
 let currAnswerBlock = 1;
 
-// const form = document.getElementById("add-post-form");
-// form.addEventListener("submit", async function (e) {
-//     e.preventDefault();
-//     var data = new FormData(form);
-//     let formData = { ...data };
-//     for (const [name, value] of data) {
-//         console.log(name, value);
-//     }
-//     const res = await fetch("http://localhost:2000/api/v1/posts/add", {
-//         method: "POST",
-//         body: JSON.stringify(formData),
-//         headers: {
-//             "content-type": "application/json",
-//         },
-//     });
-//     const resData = await res.json();
-//     console.log(resData);
-//     // windo
-// });
+const form = document.getElementById("addQnA");
+form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    let data = new FormData(form);
+    let formData = {
+        answers: [],
+    };
+
+    for (const [name, value] of data) {
+        if (name == "answers") formData["answers"].push(value);
+        else {
+            formData[name] = value;
+        }
+    }
+    console.log(formData);
+
+    const res = await fetch("http://localhost:2000/api/v1/posts/add", {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+            "Content-type": "application/json",
+        },
+    });
+    const resData = await res.json();
+    console.log(resData);
+    console.log(resData._id);
+
+    // localStorage.setItem(resData._id, JSON.stringify(resData));
+
+    location.href = `http://localhost:2000/questions/${resData._id}`;
+});
 
 console.log(addQnA);
 
