@@ -26,10 +26,11 @@ const validatePostMiddleware = async (req, res, next) => {
 
 const validateGetPostsMiddleware = async (req, res, next) => {
   try {
-    const { limit, subject, topic } = req.query;
+    const { limit, subject, topic, offset } = req.query;
 
     const validationResult = await getPostsValidate.validateAsync({
       limit,
+      offset,
       subject,
       topic,
     });
