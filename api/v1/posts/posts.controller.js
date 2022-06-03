@@ -20,6 +20,8 @@ exports.getPosts = async (req, res, next) => {
     let limit = Math.max(Math.min(value.limit, 50), 1);
 
     query = query.limit(limit);
+  } else {
+    query = query.limit(50);
   }
 
   try {
@@ -49,18 +51,33 @@ exports.getPosts = async (req, res, next) => {
       message: "Unable to fetch posts",
     });
   }
+
+exports.getSinglePost = async (req, res, next) => {
+    try {
+        let { id } = req.params;
+
+        if (!id) throw new Error("id doesn't exist");
+
+        let post = await Post.find({ _id: id });
+
+        console.log(post);
+
+        res.json(post);
+    } catch (err) {
+        next(err);
+    }
 };
 
 module.exports.addPost = async (req, res, next) => {
-  console.log("i'm post controller");
-  try {
-    let post;
-    if (req.body.answers.length) post = new Post(req.body);
-    else post = new Unanswered(req.body);
-    await post.save();
-    console.log(post);
-    res.send("post added successfully");
-  } catch (err) {
-    next(err);
-  }
+    console.log("i'm post controller");
+    try {
+        let post;
+        if (req.body.answers.length) post = new Post(req.body);
+        else post = new Unanswered(req.body);
+        await post.save();
+        console.log(post);
+        res.json(post);
+    } catch (err) {
+        next(err);
+    }
 };
