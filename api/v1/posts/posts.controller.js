@@ -11,6 +11,11 @@ exports.getPosts = async (req, res, next) => {
   if (value.topic !== undefined) {
     query = query.where("topic").equals(value.topic);
   }
+  if (value.offset !== undefined) {
+    let offset = Math.max(value.offset, 0);
+
+    query = query.skip(offset);
+  }
   if (value.limit !== undefined) {
     let limit = Math.max(Math.min(value.limit, 50), 1);
 

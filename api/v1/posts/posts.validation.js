@@ -20,6 +20,7 @@ const createPostValidate = Joi.object({
 
 const getPostsValidate = Joi.object({
   limit: Joi.number(),
+  offset: Joi.number(),
   subject: customFields.subject,
   topic: customFields.topic,
 });
