@@ -51,6 +51,7 @@ exports.getPosts = async (req, res, next) => {
       message: "Unable to fetch posts",
     });
   }
+};
 
 exports.getSinglePost = async (req, res, next) => {
     try {
