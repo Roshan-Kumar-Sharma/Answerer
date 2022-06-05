@@ -123,6 +123,10 @@ module.exports = (app) => {
         }
     });
 
+    app.get("/unanswered", (req, res, next) => {
+        res.render("unansweredQuestion");
+    });
+
     app.get("/posts/add", (req, res, next) => {
         const submitFormLink = `http://${req.headers.host}/api/v1/posts/add`;
         // const subjects = Object.keys(topicsDetails.subjects);

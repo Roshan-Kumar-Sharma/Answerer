@@ -43,14 +43,21 @@
                     <a
                         class="flex-sm-fill text-sm-center nav-link active"
                         aria-current="page"
-                        href="/unanswered"
-                        >Unanswered</a
+                        href="/posts/add"
+                        >Add Question</a
                     >
                     <a
                         class="flex-sm-fill text-sm-center nav-link active"
                         aria-current="page"
-                        href="/posts/add"
-                        >Add Another Question</a
+                        href="#"
+                        onclick="javascript:window.scrollTo(0,0)"
+                        >Go Top</a
+                    >
+                    <a
+                        class="flex-sm-fill text-sm-center nav-link active"
+                        aria-current="page"
+                        href="#page-number-section"
+                        >Go Bottom</a
                     >
                     <!-- <a class="flex-sm-fill text-sm-center nav-link" href="#">Login</a>
                 <a class="flex-sm-fill text-sm-center nav-link" href="#">Signup</a> -->
@@ -58,31 +65,27 @@
             </div>
         </nav>
 
-        <div
-            id="main"
-            class="content d-flex bd-highlight justify-content-center"
-        >
+        <div class="content d-flex bd-highlight justify-content-center">
+            <!-- sidebar heading and content -->
+
             <div class="w-75 p-2 d-flex flex-column">
-                <!-- heading -->
-                <div
-                    class="d-flex align-items-center justify-content-center my-3"
-                >
-                    <i class="fad fa-badge-check fa-5x"></i>
-                    <span class="ms-3 fs-1"
-                        >Question Added Successfully!!!</span
-                    >
-                </div>
+                <!-- sub heading -->
+                <h1 id="sub-heading" class="mx-3 text-center">
+                    Unanswered Questions
+                </h1>
 
                 <!-- question answer -->
                 <div id="ques-ans-section" class="container-fluid">
-                    <% for(let i=0; i<1; i++) {%>
+                    <% for(let i=0; i<10; i++) {%>
                     <div class="mb-5 border border-secondary">
                         <!-- question -->
                         <div
                             class="container-fluid questions"
                             id="<%= `question${i+1}` %>"
                         >
-                            <h5 class="text-secondary">Question :</h5>
+                            <h5 class="text-secondary">
+                                Question: <%= `${i+1}` %>
+                            </h5>
                             <h5>
                                 This is question jjien jkjsdifen kcjoi neo y
                                 default, until the collapse plugin adds the
@@ -96,6 +99,19 @@
                                 class="text-dark fw-bold me-3 py-1 px-2 border border-dark rounded"
                                 >id: <%= `${i+1}` %></span
                             >
+                            <button
+                                type="button"
+                                class="btn btn-outline-dark btn-sm shadow-none me-1"
+                            >
+                                Recommend Answer
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-outline-dark btn-sm"
+                                disabled
+                            >
+                                Add New Answer
+                            </button>
                         </div>
 
                         <!-- answer accordian -->
@@ -145,6 +161,23 @@
                                             <code>.accordion-body</code>, though
                                             the transition does limit overflow.
                                         </div>
+                                        <div>
+                                            <button
+                                                class="me-2 mt-2 btn btn-sm btn-outline-info"
+                                            >
+                                                Report
+                                            </button>
+                                            <button
+                                                class="me-2 mt-2 btn btn-sm btn-outline-info"
+                                            >
+                                                Like
+                                            </button>
+                                            <button
+                                                class="me-2 mt-2 btn btn-sm btn-outline-info"
+                                            >
+                                                Dislike
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -175,6 +208,34 @@
                     </div>
                     <% } %>
                 </div>
+
+                <!-- pagination -->
+                <div id="pagination" class="d-flex flex-column">
+                    <div
+                        id="page-number-section"
+                        class="container-fluid d-flex flex-wrap justify-content-center"
+                    ></div>
+
+                    <div
+                        class="m-3 container-fluid d-flex flex-wrap justify-content-center"
+                    >
+                        <input
+                            id="goto"
+                            style="width: 10rem; text-align: center"
+                            type="text"
+                            placeholder="Go To Page..."
+                        /><br />
+                        <button
+                            class="mx-2 btn btn-outline-dark shadow-none"
+                            onclick="goto()"
+                        >
+                            Go
+                        </button>
+                        <div id="invalid-msg" class="mt-2 text-danger">
+                            Invalid Page Number!!!
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -185,6 +246,6 @@
             crossorigin="anonymous"
         ></script>
 
-        <script src="/js/postSubmission.js"></script>
+        <script src="/js/demo_feed_page.js"></script>
     </body>
 </html>
