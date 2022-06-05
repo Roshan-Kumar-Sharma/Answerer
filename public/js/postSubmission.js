@@ -14,8 +14,8 @@ async function renderPage() {
 
     console.log(post);
 
-    if (!post[0].question) {
-        mainDiv.innerHTML = "No Question Found!!!";
+    if (!Array.isArray(post)) {
+        mainDiv.innerHTML = `<div class="fs-1 my-5">No Question Found!!!</div>`;
         return;
     }
 
