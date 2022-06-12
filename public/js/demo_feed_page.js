@@ -127,7 +127,9 @@ function createCurrentPageData(pageNumber) {
             </div>`
         );
 
-        let answerContainer = HTML(`<div class="accordion answers"></div>`);
+        let answerContainer = HTML(
+            `<div id="accordian${index}" class="accordion answers"></div>`
+        );
 
         if (false) {
             answerContainer.innerText =
@@ -171,11 +173,11 @@ function createCurrentPageData(pageNumber) {
             }
             if (Object.entries(currentPageData[i])[3].length === 3) {
                 addNewAnsBtn = HTML(
-                    `<button type="button" class="btn btn-outline-dark btn-sm" disabled>Add New Answer</button>`
+                    `<button type="button" class="btn btn-outline-dark btn-sm shadow-none" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="accordian${index}" disabled>Add New Answer</button>`
                 );
             } else {
                 addNewAnsBtn = HTML(
-                    `<button type="button" class="btn btn-outline-dark btn-sm shadow-none">Add New Answer</button>`
+                    `<button type="button" class="btn btn-outline-dark btn-sm shadow-none" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="accordian${index}">Add New Answer</button>`
                 );
             }
             questionContainer.append(addNewAnsBtn);
@@ -293,3 +295,25 @@ function HTML(dom) {
     template.innerHTML = dom;
     return template.content.firstChild;
 }
+
+// modal logics
+
+var exampleModal = document.getElementById("exampleModal");
+exampleModal.addEventListener("show.bs.modal", function (event) {
+    // Button that triggered the modal
+    var button = event.relatedTarget;
+    // Extract info from data-bs-* attributes
+    var recipient = button.getAttribute("data-bs-whatever");
+
+    console.log(recipient);
+
+    // If necessary, you could initiate an AJAX request here
+    // and then do the updating in a callback.
+    //
+    // Update the modal's content.
+    var modalTitle = exampleModal.querySelector(".modal-title");
+    var modalBodyInput = exampleModal.querySelector(".modal-body textarea");
+
+    modalTitle.textContent = "New message to " + recipient;
+    modalBodyInput.value = recipient;
+});
