@@ -1,4 +1,4 @@
-const { Post, Unanswered } = require("./posts.model");
+const { Post } = require("./posts.model");
 
 exports.getPosts = async (req, res, next) => {
   const { value } = req.validation;
@@ -22,6 +22,11 @@ exports.getPosts = async (req, res, next) => {
     query = query.limit(limit);
   } else {
     query = query.limit(50);
+  }
+  if(value.is_answered !== undefined) {
+    query = query.where("is_answered", value.is_answered);
+  } else {
+    query = query.where("is_answered", true);
   }
 
   try {

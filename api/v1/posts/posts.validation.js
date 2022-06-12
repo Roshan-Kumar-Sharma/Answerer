@@ -7,6 +7,7 @@ const customFields = {
   topic: Joi.string(),
   username: Joi.string(),
   rating: Joi.number(),
+  is_answered: Joi.boolean().valid(true, false),
 };
 
 const createPostValidate = Joi.object({
@@ -23,6 +24,7 @@ const getPostsValidate = Joi.object({
   offset: Joi.number(),
   subject: customFields.subject,
   topic: customFields.topic,
+  is_answered: customFields.is_answered,
 });
 
 module.exports = { createPostValidate, getPostsValidate };

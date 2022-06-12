@@ -32,13 +32,16 @@ const postSchema = new Schema({
     type: String,
     default: false,
   },
+  is_answered: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-let Post, Unanswered, Movies;
+let Post, Movies;
 
 // try {
 Post = csanswerer.model("Post", postSchema);
-Unanswered = csanswerer.model("Unanswered", postSchema);
 Movies = sample.model("movies", new Schema({}), "movies");
 
 // console.log(Movies.collection);
@@ -50,4 +53,4 @@ Movies = sample.model("movies", new Schema({}), "movies");
 //   console.log(error);
 // }
 
-module.exports = { Post, Unanswered, Movies };
+module.exports = { Post, Movies };

@@ -82,10 +82,19 @@
               </option>
             <% } %>
           </select>
+        </div>
+
+        <div class="my-2 gap-1 d-flex flex-row align-items-start">
           <div class="w-100 d-flex">
             <label for="floatingInput"><small>Offset:&nbsp;&nbsp;</small></label>
             <input type="text" class="form-control form-control-sm" id="api-offset" value="" placeholder="Enter offset">
           </div>
+
+          <select class="form-select form-select-sm" id="api-is-answered">
+            <option value="-1" selected>- Answered -</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
         </div>
 
         <!-- code section  -->
@@ -130,7 +139,7 @@
           </tr>
           <tr>
             <td>GET</td>
-            <td><a href="/api/v1/posts?subject=subject_name&topic=topic_name&limit=10&offset=5">/posts?subject=subject_name&topic=topic_name&limit=10&offset=5</a></td>
+            <td><a href="/api/v1/posts?subject=subject_name&topic=topic_name&limit=10&offset=5&is_answered=false">/posts?subject=subject_name&topic=topic_name&limit=10&offset=5&is_answered=false</a></td>
           </tr>
         </tbody>
       </table>
