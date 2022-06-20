@@ -1,4 +1,6 @@
 const { Post } = require("./posts.model");
+const emailService = require("../../../utils/email.service");
+const { SMTP_AUTH_USER } = require("../../../configs/secret")
 
 exports.getPosts = async (req, res, next) => {
   const { value } = req.validation;
@@ -77,10 +79,44 @@ exports.getSinglePost = async (req, res, next) => {
 module.exports.addPost = async (req, res, next) => {
     console.log("i'm post controller");
     try {
+        const data = req.body;
         let post;
-        if (req.body.answers.length) post = new Post(req.body);
-        else post = new Unanswered(req.body);
-        await post.save();
+
+        if (data.answers.length) {
+          data.answers = data.answers.map(answer => ({
+            answer: answer,
+            author_email: data.author_email || "",
+          }));
+        }
+
+        const { author_email } = data;
+
+        post = new Post(data);
+        const result = await post.save()
+          .catch(err => console.log("error: ", err))
+
+        const protocol = req.protocol;
+        const host = req.hostname;
+        const port = 2000;
+        const fullUrl = `${protocol}://${host}${[80, 443].includes(port) ? "" : `:${port}`}`
+
+        if(author_email) {
+          const mailOptions = {
+            from: `Q&A Place <${SMTP_AUTH_USER}>`,
+            to: author_email,
+            subject: 'Your question was posted successfully [Q&A Website]',
+            html: `
+<div>
+  <p>Hello,<br/>&nbsp;&nbsp;&nbsp;&nbsp;Your question was posted successfully. The link to the question: ${
+  fullUrl+"/questions/"+result._id}</p>
+</div>
+            `
+          };
+          
+          // Send the mail asynchronously.
+          emailService.sendMail(mailOptions);
+        }
+
         console.log(post);
         res.json(post);
     } catch (err) {

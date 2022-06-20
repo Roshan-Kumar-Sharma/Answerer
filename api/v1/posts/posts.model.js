@@ -10,7 +10,16 @@ const postSchema = new Schema({
     required: true,
   },
   answers: {
-    type: [String],
+    type: [{
+      answer: {
+        type: String,
+        default: ""
+      },
+      author_email: {
+        type: String,
+        default: ""
+      }
+    }],
   },
   subject: {
     type: String,
@@ -32,6 +41,10 @@ const postSchema = new Schema({
     type: String,
     default: false,
   },
+  author_email: {
+    type: String,
+    default: ""
+  },
   is_answered: {
     type: Boolean,
     default: false,
@@ -42,7 +55,7 @@ let Post, Movies;
 
 // try {
 Post = csanswerer.model("Post", postSchema);
-Movies = sample.model("movies", new Schema({}), "movies");
+// Movies = sample.model("movies", new Schema({}), "movies");
 
 // console.log(Movies.collection);
 
