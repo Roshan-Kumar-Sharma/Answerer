@@ -9,9 +9,11 @@ const quesAnsSection = document.getElementById("ques-ans-section");
 const pageNumberSection = document.getElementById("page-number-section");
 const invalidMessage = document.getElementById("invalid-msg");
 const gotoInput = document.getElementById("goto");
+const submit = document.getElementById("submit");
 
 window.onload = async function () {
     console.log("hello");
+    submit.addEventListener("click", addNewAnswer);
     await fetchData();
 };
 
@@ -117,9 +119,11 @@ function createCurrentPageData(pageNumber) {
         );
 
         let questionContainer = HTML(
-            `<div class="container-fluid questions" id="question${index}">
+            `<div class="container-fluid questions">
                 <h5 class="text-secondary">Question: ${index}</h5>
-                <h5>${currentPageData[i].body}</h5>
+                <h5 id="question${index}" data-ques-id="jfdjfljjfj">${
+                currentPageData[i].body
+            }</h5>
                 <span class="text-dark fw-bold me-3 py-1 px-2 border border-dark rounded">id: ${
                     i + 1
                 }</span>
@@ -298,22 +302,49 @@ function HTML(dom) {
 
 // modal logics
 
-var exampleModal = document.getElementById("exampleModal");
+const exampleModal = document.getElementById("exampleModal");
 exampleModal.addEventListener("show.bs.modal", function (event) {
     // Button that triggered the modal
-    var button = event.relatedTarget;
+    let button = event.relatedTarget;
     // Extract info from data-bs-* attributes
-    var recipient = button.getAttribute("data-bs-whatever");
+    let recipient = button.getAttribute("data-bs-whatever");
 
     console.log(recipient);
 
-    // If necessary, you could initiate an AJAX request here
-    // and then do the updating in a callback.
-    //
-    // Update the modal's content.
-    var modalTitle = exampleModal.querySelector(".modal-title");
-    var modalBodyInput = exampleModal.querySelector(".modal-body textarea");
+    let id = recipient.substr(9);
 
-    modalTitle.textContent = "New message to " + recipient;
-    modalBodyInput.value = recipient;
+    let question = document.querySelector(`#question${id}`);
+    let quesId = question.getAttribute("data-ques-id");
+    console.log(quesId);
+
+    document.getElementById("modal-ques-id").innerText = quesId;
+
+    let modalBodyInput = exampleModal.querySelector(".modal-body textarea");
+
+    modalBodyInput.value = question.innerText;
 });
+
+async function addNewAnswer(e) {
+    e.preventDefault();
+
+    console.log("submit");
+
+    const quesId = document.getElementById("modal-ques-id").innerText;
+
+    const addAnswerForm = document.getElementById("addAnswerForm");
+
+    // try {
+    //     const res = await fetch(
+    //         "https://localhost:2000/api/v1/posts/addanswer",
+    //         {
+    //             method: "POST",
+    //             body: JSON.stringify(formData),
+    //             headers: {
+    //                 "Content-type": "application/json",
+    //             },
+    //         }
+    //     );
+    // } catch (err) {
+    //     console.log("Something Went Wrong. Try Again...");
+    // }
+}

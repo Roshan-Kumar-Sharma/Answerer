@@ -138,10 +138,16 @@
                     <h5 class="modal-title" id="exampleModalLabel">Add Answer</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <div
+                    id="success-ans-add" class="d-flex align-items-center justify-content-center mt-2 d-none"
+                >
+                    <i class="fad fa-badge-check fa-3x"></i>
+                    <span class="ms-3 fs-3">Answer Added Successfully!!!</span>
+                </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="addAnswerForm">
                         <div class="mb-3">
-                            <label for="question" class="form-label">Question:</label>
+                            <label for="question" class="form-label">Question: [ id : <span id="modal-ques-id" class="fw-bold"></span> ]</label>
                             <textarea
                                 type="text"
                                 class="form-control shadow-none"
@@ -149,17 +155,22 @@
                                 name="question"
                                 rows="3"
                                 required
+                                disabled
                             ></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="message-text" class="col-form-label">New Answer:</label>
-                            <textarea class="form-control shadow-none" id="message-text"></textarea>
+                            <label for="answer" class="col-form-label">New Answer:</label>
+                            <textarea class="form-control shadow-none" id="answer" name="answer" rows="5" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="col-form-label">Email:</label>
+                            <input type="email" class="form-control shadow-none" id="email" name="email" required>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary shadow-none" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary shadow-none">Submit Answer</button>
+                    <button id="submit" type="button" class="btn btn-primary shadow-none">Submit Answer</button>
                 </div>
             </div>
         </div>

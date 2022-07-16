@@ -58,6 +58,10 @@ a {
     background-color: khaki;
 }
 
+.modal-body > textarea{
+    height: fit-content;
+}
+
 /* <style>
         items d-flex p-5 header border border-5 justify-content-center align-items-center w-25 h-15
         
