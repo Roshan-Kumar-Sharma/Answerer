@@ -49,6 +49,11 @@
                     <a
                         class="flex-sm-fill text-sm-center nav-link active"
                         aria-current="page"
+                        href="/api/v1/docs">Docs</a
+                    >
+                    <a
+                        class="flex-sm-fill text-sm-center nav-link active"
+                        aria-current="page"
                         href="/posts/add"
                         >Add Question</a
                     >
@@ -180,6 +185,19 @@
                             id="username"
                             name="username"
                             placeholder="Tell us who you are..."
+                            autocomplete="off"
+                        />
+                    </div>
+                    <div class="col mb-3">
+                        <label for="author_email" class="form-label"
+                            >E-mail :</label
+                        >
+                        <input
+                            type="email"
+                            class="form-control"
+                            id="author_email"
+                            name="author_email"
+                            placeholder="Email address"
                             autocomplete="off"
                         />
                     </div>

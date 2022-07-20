@@ -13,11 +13,12 @@ const subject = document.querySelector("#api-subject");
 const topic = document.querySelector("#api-topic");
 const limit = document.querySelector("#api-limit");
 const offset = document.querySelector("#api-offset");
+const isAnswered = document.querySelector("#api-is-answered")
 
 const jsRequestCode = document.querySelector("#api-call-js-code");
 const jsonResponse = document.querySelector("#api-call-output");
 
-[topic, subject, limit].forEach(element => {
+[topic, subject, limit, isAnswered].forEach(element => {
   element.addEventListener("change", (e) => {
     reloadCodePanel();
   });
@@ -43,11 +44,13 @@ function generateCode() {
   const topicValue = topic.value;
   const limitValue = limit.value;
   const offsetValue = offset.value;
+  const isAnsweredValue = isAnswered.value;
 
   const queryParams = Object.entries({
     topic: topicValue,
     subject: subjectValue,
     limit: limitValue,
+    'is_answered': isAnsweredValue,
   })
     .reduce((a, [key, value]) => {
       if(value !== "-1") {
