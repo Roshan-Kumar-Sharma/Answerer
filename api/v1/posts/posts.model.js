@@ -5,33 +5,42 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const postSchema = new Schema({
-  question: {
-    type: String,
-    required: true,
-  },
-  answers: {
-    type: [String],
-  },
-  subject: {
-    type: String,
-    required: true,
-  },
-  topic: {
-    type: String,
-    required: true,
-  },
-  username: {
-    type: String,
-    default: "anonymous",
-  },
-  rating: {
-    type: Number,
-    required: true,
-  },
-  reviewed: {
-    type: String,
-    default: false,
-  },
+    question: {
+        type: String,
+        required: true,
+    },
+    answers: {
+        type: [
+            {
+                answer: {
+                    type: String,
+                },
+                author: {
+                    type: String,
+                },
+            },
+        ],
+    },
+    subject: {
+        type: String,
+        required: true,
+    },
+    topic: {
+        type: String,
+        required: true,
+    },
+    username: {
+        type: String,
+        default: "anonymous",
+    },
+    rating: {
+        type: Number,
+        required: true,
+    },
+    reviewed: {
+        type: String,
+        default: false,
+    },
 });
 
 let Post, Unanswered, Movies;

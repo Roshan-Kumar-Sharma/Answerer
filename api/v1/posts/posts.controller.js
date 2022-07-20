@@ -94,12 +94,19 @@ module.exports.addPost = async (req, res, next) => {
 exports.updatePostAnswer = async (req, res, next) => {
     console.log("updating question");
     try {
-        const { id, answer } = req.body;
-        if (!id || !answer) throw Error("Insufficient data");
+        const { id, answer, email } = req.body;
+        if (!id || !answer || !email) throw Error("Insufficient data");
 
         const updatedPost = await Post.findOneAndUpdate(
             { _id: id },
-            { $push: { answers: answer } },
+            {
+                $push: {
+                    answers: {
+                        author: email,
+                        answer,
+                    },
+                },
+            },
             { new: true }
         );
 
