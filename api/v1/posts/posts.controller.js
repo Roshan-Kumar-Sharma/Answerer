@@ -123,3 +123,28 @@ module.exports.addPost = async (req, res, next) => {
         next(err);
     }
 };
+
+exports.updatePostAnswer = async (req, res, next) => {
+    console.log("updating question");
+    try {
+        const { id, answer, email } = req.body;
+        if (!id || !answer || !email) throw Error("Insufficient data");
+
+        const updatedPost = await Post.findOneAndUpdate(
+            { _id: id },
+            {
+                $push: {
+                    answers: {
+                        author: email,
+                        answer,
+                    },
+                },
+            },
+            { new: true }
+        );
+
+        res.send(updatedPost);
+    } catch (err) {
+        next(err);
+    }
+};

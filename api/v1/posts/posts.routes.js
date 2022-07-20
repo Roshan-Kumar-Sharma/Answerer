@@ -1,5 +1,10 @@
 const express = require("express");
-const { addPost, getPosts, getSinglePost } = require("./posts.controller");
+const {
+    addPost,
+    getPosts,
+    getSinglePost,
+    updatePostAnswer,
+} = require("./posts.controller");
 const {
     validatePostMiddleware,
     validateGetPostsMiddleware,
@@ -41,6 +46,8 @@ router.get("/fetch", async (req, res, next) => {
 });
 
 router.post("/add", validatePostMiddleware, addPost);
+
+router.post("/addanswer", updatePostAnswer);
 
 router.get("/:id", getSinglePost);
 

@@ -9,9 +9,12 @@ const quesAnsSection = document.getElementById("ques-ans-section");
 const pageNumberSection = document.getElementById("page-number-section");
 const invalidMessage = document.getElementById("invalid-msg");
 const gotoInput = document.getElementById("goto");
+const submit = document.getElementById("submit");
+const postUpdate = document.getElementById("post-update");
 
 window.onload = async function () {
     console.log("hello");
+    submit.addEventListener("click", addNewAnswer);
     await fetchData();
 };
 
@@ -117,9 +120,11 @@ function createCurrentPageData(pageNumber) {
         );
 
         let questionContainer = HTML(
-            `<div class="container-fluid questions" id="question${index}">
+            `<div class="container-fluid questions">
                 <h5 class="text-secondary">Question: ${index}</h5>
-                <h5>${currentPageData[i].body}</h5>
+                <h5 id="question${index}" data-ques-id="jfdjfljjfj">${
+                currentPageData[i].body
+            }</h5>
                 <span class="text-dark fw-bold me-3 py-1 px-2 border border-dark rounded">id: ${
                     i + 1
                 }</span>
@@ -127,7 +132,9 @@ function createCurrentPageData(pageNumber) {
             </div>`
         );
 
-        let answerContainer = HTML(`<div class="accordion answers"></div>`);
+        let answerContainer = HTML(
+            `<div id="accordian${index}" class="accordion answers"></div>`
+        );
 
         if (false) {
             answerContainer.innerText =
@@ -171,11 +178,11 @@ function createCurrentPageData(pageNumber) {
             }
             if (Object.entries(currentPageData[i])[3].length === 3) {
                 addNewAnsBtn = HTML(
-                    `<button type="button" class="btn btn-outline-dark btn-sm" disabled>Add New Answer</button>`
+                    `<button type="button" class="btn btn-outline-dark btn-sm shadow-none" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="accordian${index}" disabled>Add New Answer</button>`
                 );
             } else {
                 addNewAnsBtn = HTML(
-                    `<button type="button" class="btn btn-outline-dark btn-sm shadow-none">Add New Answer</button>`
+                    `<button type="button" class="btn btn-outline-dark btn-sm shadow-none" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="accordian${index}">Add New Answer</button>`
                 );
             }
             questionContainer.append(addNewAnsBtn);
@@ -292,4 +299,82 @@ function HTML(dom) {
     const template = document.createElement("template");
     template.innerHTML = dom;
     return template.content.firstChild;
+}
+
+// modal logics
+
+const exampleModal = document.getElementById("exampleModal");
+exampleModal.addEventListener("show.bs.modal", function (event) {
+    // Button that triggered the modal
+    let button = event.relatedTarget;
+    // Extract info from data-bs-* attributes
+    let recipient = button.getAttribute("data-bs-whatever");
+
+    console.log(recipient);
+
+    let id = recipient.substr(9);
+
+    let question = document.querySelector(`#question${id}`);
+    let quesId = question.getAttribute("data-ques-id");
+    console.log(quesId);
+
+    document.getElementById("modal-ques-id").innerText = quesId;
+
+    let modalBodyInput = exampleModal.querySelector(".modal-body textarea");
+
+    modalBodyInput.value = question.innerText;
+});
+
+async function addNewAnswer(e) {
+    e.preventDefault();
+
+    console.log("submit");
+
+    const quesId = document.getElementById("modal-ques-id").innerText;
+
+    const addAnswerForm = document.getElementById("addAnswerForm");
+
+    console.log(quesId);
+
+    const newAnswerData = new FormData(addAnswerForm);
+
+    const formData = Object.fromEntries(newAnswerData.entries());
+
+    formData.id = "61b24e97a2c87e34762aa5e2";
+    console.log(formData);
+    postUpdate.innerHTML = "";
+
+    try {
+        const res = await fetch(
+            "http://localhost:2000/api/v1/posts/addanswer",
+            {
+                method: "POST",
+                body: JSON.stringify(formData),
+                headers: {
+                    "Content-type": "application/json",
+                },
+            }
+        );
+        const result = HTML(`<div
+                        class="d-flex align-items-center justify-content-center my-3"
+                    >
+                        <i class="fad fa-badge-check fa-5x"></i>
+                        <span class="ms-3 fs-1 text-success"
+                            >Answer Added Successfully!!!</span
+                        >
+                    </div>`);
+        postUpdate.append(result);
+        console.log("Answer updated successfully...");
+    } catch (err) {
+        const result = HTML(`<div
+                        class="d-flex align-items-center justify-content-center my-3"
+                    >
+                        <i class="fad fa-times-circle fa-5x"></i>
+                        <span class="ms-3 fs-1 text-danger"
+                            >Answer Not Added!!!</span
+                        >
+                    </div>`);
+        postUpdate.append(result);
+        console.log("Something Went Wrong. Try Again...");
+    }
 }
