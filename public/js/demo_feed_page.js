@@ -340,11 +340,14 @@ async function addNewAnswer(e) {
 
     const formData = Object.fromEntries(newAnswerData.entries());
 
-    formData.id = "61b24e97a2c87e34762aa5e2";
+    formData.id = "62d9663d9bf51541835999ee";
     console.log(formData);
     postUpdate.innerHTML = "";
 
     try {
+        if (!formData.answer || formData.email)
+            throw Error("Answer Couldn't Added");
+
         const res = await fetch(
             "http://localhost:2000/api/v1/posts/addanswer",
             {

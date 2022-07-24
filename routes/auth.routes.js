@@ -138,7 +138,7 @@ module.exports = (app) => {
 
     app.get("/questions/:id", (req, res, next) => {
         if (!req.params.id) res.render("pageNotFound");
-        console.log("I was called");
+        console.log("after successfully posting question [/question/:id]");
         res.render("postSubmission");
     });
 };
