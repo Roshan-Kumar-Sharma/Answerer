@@ -13,7 +13,7 @@ const router = express.Router();
 // const topicsDetails = require("../../../configs/other.details");
 const { Movies } = require("./posts.model");
 
-// const Post = require("./posts.model");
+const { Post } = require("./posts.model");
 
 // router.post("/add", (req, res, next) => {
 //     for (let i = 0; i < 3; i++) {
@@ -32,16 +32,26 @@ router.get("/fetch", async (req, res, next) => {
         const { sub, topic } = req.query;
         const page = parseInt(req.query.page);
         const limit = parseInt(req.query.limit);
-        const data = await Movies.find({})
-            .select({ plot: 1, genres: 1, _id: 0 })
+
+        console.log(sub, topic, page, limit);
+
+        // console.log(Post);
+
+        const data = await Post.find({})
             .skip((page - 1) * limit)
             .limit(limit);
 
-        const totalData = await Movies.find({}).count();
+        console.log(data);
+        // const data = await Movies.find({})
+        //     .select({ plot: 1, genres: 1, _id: 0 })
+        //     .skip((page - 1) * limit)
+        //     .limit(limit);
+        const totalData = await Post.find({}).count();
+
         console.log(page, limit, totalData);
         res.send({ data, totalData });
     } catch (error) {
-        console.log(error.message);
+        console.log(error);
     }
 });
 

@@ -3,7 +3,7 @@ let page = 1;
 let totalData, data, totalNumOfPages, numberOfPageButtons, currentPageNumber;
 let prevPageNumber, prev, next, first, last;
 let pageButtons, prevPageNumId, currPageNumId, sub, topic;
-let additionalButtons;
+let additionalButtons, currID, currQuesID;
 
 const quesAnsSection = document.getElementById("ques-ans-section");
 const pageNumberSection = document.getElementById("page-number-section");
@@ -23,28 +23,20 @@ async function fetchData() {
         // sub = document.getElementById("subject").innerText.trim();
         // topic = document.getElementById("topic").innerText.trim();
         sub = "dbms";
-        topic = "Entity Relationship Model";
+        topic = "dbms";
 
         currentPageNumber = 1;
 
-        // const dbResponse = await fetch(
-        //     `${location.origin}/api/v1/posts/fetch?sub=${sub}&&topic=${topic}&&page=${currentPageNumber}&&limit=${pageLimit}`
-        // );
-
-        // const dbData = await dbResponse.json();
-
-        // console.log(dbData);
-
-        // ({ data, totalData } = dbData);
-        // console.log(data, totalData);
-
-        const response = await fetch(
-            "https://jsonplaceholder.typicode.com/posts"
+        const dbResponse = await fetch(
+            `${location.origin}/api/v1/posts/fetch?sub=${sub}&&topic=${topic}&&page=${currentPageNumber}&&limit=${pageLimit}`
         );
-        data = await response.json();
-        totalData = data.length;
 
-        console.log(data);
+        const dbData = await dbResponse.json();
+
+        console.log(dbData);
+
+        ({ data, totalData } = dbData);
+        console.log(data, totalData);
 
         totalNumOfPages = Math.ceil(totalData / pageLimit);
 
@@ -61,19 +53,12 @@ async function fetchData() {
         last = document.getElementById("last");
         first = document.getElementById("first");
         next = document.getElementById("next");
-
-        // pageButtons = document.getElementsByClassName("pages");
-
-        // console.log(pageButtons);
-
-        // pageButtons[currentPageNumber - 1].classList.toggle("btn-secondary");
-        // pageButtons[currentPageNumber - 1].classList.toggle("btn-outline-dark");
     } catch (error) {
         console.log(error);
     }
 }
 
-function gotoPage(pageNumber) {
+async function gotoPage(pageNumber) {
     if (isNaN(pageNumber) || pageNumber == null) return;
     if (pageNumber < 1 || pageNumber > totalNumOfPages) {
         invalidMessage.style.display = "block";
@@ -84,30 +69,26 @@ function gotoPage(pageNumber) {
 
     console.log(pageNumber);
 
-    // const dbResponse = await fetch(
-    //     `${location.origin}/api/v1/posts/fetch?sub=${sub}&&topic=${topic}&&page=${pageNumber}&&limit=${pageLimit}`
-    // );
+    const dbResponse = await fetch(
+        `${location.origin}/api/v1/posts/fetch?sub=${sub}&&topic=${topic}&&page=${pageNumber}&&limit=${pageLimit}`
+    );
 
-    // const rawData = await dbResponse.json();
-    // data = rawData.data;
+    const rawData = await dbResponse.json();
+    data = rawData.data;
 
-    // prevPageNumber = currentPageNumber;
+    prevPageNumber = currentPageNumber;
     currentPageNumber = pageNumber;
 
-    // // createCurrentPageData(pageNumber);
+    createCurrentPageData(pageNumber);
     createPageNumberButtons(pageNumber);
 }
 
 function createCurrentPageData(pageNumber) {
-    // currentPageNumber = pageNumber;
-    // const currentPageData = data.slice(
-    //     (currentPageNumber - 1) * pageLimit,
-    //     pageLimit * currentPageNumber
-    // );
     let index, currentPageData, eachData, ansDiv, addAnswer;
     let currentPageContainer, addNewAnsBtn;
 
     quesAnsSection.innerHTML = "";
+    gotoInput.value = "";
 
     index = (pageNumber - 1) * pageLimit + 1;
     currentPageData = data;
@@ -122,13 +103,8 @@ function createCurrentPageData(pageNumber) {
         let questionContainer = HTML(
             `<div class="container-fluid questions">
                 <h5 class="text-secondary">Question: ${index}</h5>
-                <h5 id="question${index}" data-ques-id="jfdjfljjfj">${
-                currentPageData[i].body
-            }</h5>
-                <span class="text-dark fw-bold me-3 py-1 px-2 border border-dark rounded">id: ${
-                    i + 1
-                }</span>
-                <button type="button" class="btn btn-outline-dark btn-sm shadow-none me-1">Recommend Answer</button>
+                <h5 id="question${index}" data-ques-id="${currentPageData[i]._id}">${currentPageData[i].question}</h5>
+                <span class="text-dark fw-bold me-3 py-1 px-2 border border-dark rounded">id: ${currentPageData[i]._id}</span>
             </div>`
         );
 
@@ -136,57 +112,43 @@ function createCurrentPageData(pageNumber) {
             `<div id="accordian${index}" class="accordion answers"></div>`
         );
 
-        if (false) {
-            answerContainer.innerText =
-                "No Answer Available For This Question Right Now...";
-        } else {
-            for (
-                let j = 0;
-                j < Object.entries(currentPageData[i])[3].length;
-                j++
-            ) {
-                let eachAnswer = HTML(`<div class="accordion-item">
+        for (let j = 0; j < currentPageData[i]["answers"].length; j++) {
+            let eachAnswer = HTML(`<div class="accordion-item">
                     <h2 class="accordion-header" id="q${index}a${
-                    j + 1
-                }-heading">
+                j + 1
+            }-heading">
                         <div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#q${index}a${
-                    j + 1
-                }h${j + 1}" aria-expanded="true" aria-controls="q${index}a${
-                    j + 1
-                }h${j + 1}">Answer #${j + 1}</div>
+                j + 1
+            }h${j + 1}" aria-expanded="true" aria-controls="q${index}a${
+                j + 1
+            }h${j + 1}">Answer #${j + 1}</div>
                     </h2>
                 </div>`);
 
-                let ansBodySeg = HTML(`<div id="q${index}a${j + 1}h${
-                    j + 1
-                }" class="accordion-collapse collapse" aria-labelledby="q${index}a${
-                    j + 1
-                }-heading">
+            let ansBodySeg = HTML(`<div id="q${index}a${j + 1}h${
+                j + 1
+            }" class="accordion-collapse collapse" aria-labelledby="q${index}a${
+                j + 1
+            }-heading">
                     <div class="accordion-body" id="q${index}a${j + 1}">
-                        <div>${Object.entries(currentPageData[i])[3][j]}</div>
-                        <div>
-                            <button class="me-2 mt-2 btn btn-sm btn-outline-info">Report</button>
-                            <button class="me-2 mt-2 btn btn-sm btn-outline-info">Like</button>
-                            <button class="me-2 mt-2 btn btn-sm btn-outline-info">Dislike</button>
-                        </div>
+                        <div>${currentPageData[i]["answers"][j].answer}</div>
                     </div>
                 </div>`);
 
-                eachAnswer.append(ansBodySeg);
+            eachAnswer.append(ansBodySeg);
 
-                answerContainer.append(eachAnswer);
-            }
-            if (Object.entries(currentPageData[i])[3].length === 3) {
-                addNewAnsBtn = HTML(
-                    `<button type="button" class="btn btn-outline-dark btn-sm shadow-none" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="accordian${index}" disabled>Add New Answer</button>`
-                );
-            } else {
-                addNewAnsBtn = HTML(
-                    `<button type="button" class="btn btn-outline-dark btn-sm shadow-none" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="accordian${index}">Add New Answer</button>`
-                );
-            }
-            questionContainer.append(addNewAnsBtn);
+            answerContainer.append(eachAnswer);
         }
+        if (currentPageData[i]["answers"].length === 10) {
+            addNewAnsBtn = HTML(
+                `<button type="button" class="btn btn-outline-dark btn-sm shadow-none" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="accordian${index}" disabled>Add New Answer</button>`
+            );
+        } else {
+            addNewAnsBtn = HTML(
+                `<button type="button" class="btn btn-outline-dark btn-sm shadow-none" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="accordian${index}">Add New Answer</button>`
+            );
+        }
+        questionContainer.append(addNewAnsBtn);
 
         eachQnAContainer.append(questionContainer);
         eachQnAContainer.append(answerContainer);
@@ -194,30 +156,6 @@ function createCurrentPageData(pageNumber) {
         quesAnsSection.append(eachQnAContainer);
     }
 }
-
-// function updateCurrentPageData(pageNumber) {
-//     // currentPageNumber = pageNumber;
-//     const currentPageData = data.slice(
-//         (currentPageNumber - 1) * pageLimit,
-//         pageLimit * currentPageNumber
-//     );
-//     // console.log("currentPageData : ", currentPageData.length);
-//     pageDataContainer.innerHTML = "";
-//     let eachData;
-//     for (let i = 0; i < pageLimit && i < currentPageData.length; i++) {
-//         eachData = HTML(
-//             `<div class="data">
-//                 <div id=${currentPageData[i].id} class="question">
-//                     <h3>
-//                         Q.${currentPageData[i].id})&nbsp;${currentPageData[i].title}
-//                     </h3>
-//                 </div>
-//                 <div id=${currentPageData[i].id} class="answer"><b>Answer : </b>${currentPageData[i].body}</div>
-//             </div>`
-//         );
-//         pageDataContainer.append(eachData);
-//     }
-// }
 
 function createPageNumberButtons(pageNumber) {
     let page, startPageNo, endPageNo;
@@ -246,10 +184,7 @@ function createPageNumberButtons(pageNumber) {
                 i == currentPageNumber ? "btn-secondary" : "btn-outline-dark"
             } me-1 my-1 shadow-none" onclick="gotoPage(${i})">${i}</button>`
         );
-        // page.addEventListener("click", function () {
-        //     console.log("you clicked button : ", parseInt(this.innerText));
-        //     gotoPage(parseInt(this.innerText));
-        // });
+
         pageNumberSection.append(page);
     }
 
@@ -312,17 +247,21 @@ exampleModal.addEventListener("show.bs.modal", function (event) {
 
     console.log(recipient);
 
-    let id = recipient.substr(9);
+    currID = recipient.substr(9);
 
-    let question = document.querySelector(`#question${id}`);
-    let quesId = question.getAttribute("data-ques-id");
-    console.log(quesId);
+    let question = document.querySelector(`#question${currID}`);
+    currQuesID = question.getAttribute("data-ques-id");
+    console.log(currQuesID);
 
-    document.getElementById("modal-ques-id").innerText = quesId;
+    document.getElementById("modal-ques-id").innerText = currQuesID;
 
     let modalBodyInput = exampleModal.querySelector(".modal-body textarea");
 
     modalBodyInput.value = question.innerText;
+
+    const addAnswerForm = document.getElementById("addAnswerForm");
+    addAnswerForm.email.value = "";
+    addAnswerForm.answer.value = "";
 });
 
 async function addNewAnswer(e) {
@@ -340,12 +279,12 @@ async function addNewAnswer(e) {
 
     const formData = Object.fromEntries(newAnswerData.entries());
 
-    formData.id = "62d9663d9bf51541835999ee";
+    formData.id = currQuesID;
     console.log(formData);
     postUpdate.innerHTML = "";
 
     try {
-        if (!formData.answer || formData.email)
+        if (!formData.answer || !formData.email)
             throw Error("Answer Couldn't Added");
 
         const res = await fetch(
@@ -367,8 +306,12 @@ async function addNewAnswer(e) {
                         >
                     </div>`);
         postUpdate.append(result);
+
         console.log("Answer updated successfully...");
+
+        addAnswerDOM(formData.answer);
     } catch (err) {
+        console.log(err);
         const result = HTML(`<div
                         class="d-flex align-items-center justify-content-center my-3"
                     >
@@ -379,5 +322,37 @@ async function addNewAnswer(e) {
                     </div>`);
         postUpdate.append(result);
         console.log("Something Went Wrong. Try Again...");
+    }
+
+    currID = currQuesID = undefined;
+}
+
+function addAnswerDOM(answer) {
+    let accordian = document.getElementById(`accordian${currID}`);
+
+    let answerNum = accordian.children.length;
+
+    answerNum++;
+
+    let newAnswer = HTML(`<div class="accordion-item">
+                    <h2 class="accordion-header" id="q${currID}a${answerNum}-heading">
+                        <div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#q${currID}a${answerNum}h${answerNum}" aria-expanded="true" aria-controls="q${currID}a${answerNum}h${answerNum}">Answer #${answerNum}</div>
+                    </h2>
+                </div>`);
+
+    let newAnsBodySeg =
+        HTML(`<div id="q${currID}a${answerNum}h${answerNum}" class="accordion-collapse collapse" aria-labelledby="q${currID}a${answerNum}-heading">
+                    <div class="accordion-body" id="q${currID}a${answerNum}">
+                        <div>${answer}</div>
+                    </div>
+                </div>`);
+
+    newAnswer.append(newAnsBodySeg);
+    accordian.append(newAnswer);
+
+    if (accordian.children.length === 10) {
+        document.querySelector(
+            `#question${currID}`
+        ).parentNode.children[3].disabled = "true";
     }
 }
