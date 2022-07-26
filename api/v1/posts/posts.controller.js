@@ -1,6 +1,9 @@
 const { Post } = require("./posts.model");
-const emailService = require("../../../utils/email.service");
 const { SMTP_AUTH_USER } = require("../../../configs/secret");
+const emailService = require("../../../utils/email.service");
+const urlUtils = require("../../../utils/url.utils");
+
+const _ = require("lodash");
 
 exports.getPosts = async (req, res, next) => {
     const { value } = req.validation;
@@ -98,6 +101,7 @@ module.exports.addPost = async (req, res, next) => {
                 answer: answer,
                 author_email: data.author_email || "",
             }));
+            data.is_answered = true;
         }
 
         const { author_email } = data;
@@ -107,12 +111,7 @@ module.exports.addPost = async (req, res, next) => {
             .save()
             .catch((err) => console.log("error: ", err));
 
-        const protocol = req.protocol;
-        const host = req.hostname;
-        const port = 2000;
-        const fullUrl = `${protocol}://${host}${
-            [80, 443].includes(port) ? "" : `:${port}`
-        }`;
+        const fullUrl = urlUtils.getFullUrl(req);
 
         if (author_email) {
             const mailOptions = {
@@ -158,6 +157,40 @@ exports.updatePostAnswer = async (req, res, next) => {
             },
             { new: true }
         );
+
+        console.log(updatedPost);
+
+        const participant_emails = [ _.toLower(updatedPost.author_email) ];
+        for(const answer of updatedPost.answers) {
+            if(answer.answer
+                && answer.author_email
+                && !participant_emails.includes(_.toLower(answer.author_email))) {
+                participant_emails.push(_.toLower(answer.author_email));
+            }
+        }
+
+        console.log(participant_emails);
+
+        const fullUrl = urlUtils.getFullUrl(req);
+
+        for(const email of participant_emails) {
+            const mailOptions = {
+                from: `Q&A Place <${SMTP_AUTH_USER}>`,
+                to: email,
+                subject: `New answer was added to question #${_.truncate(updatedPost.question, { length: 30 })} [Q&A Website]`,
+                html: `
+<div>
+  <p>Hello,<br/>&nbsp;&nbsp;&nbsp;&nbsp;A new answer was added to the question to which you contributed.
+The link to the question: ${
+      fullUrl + "/questions/" + updatedPost._id
+  }</p>
+</div>
+            `,
+            };
+
+            // Send the mail asynchronously.
+            emailService.sendMail(mailOptions);
+        }
 
         res.send(updatedPost);
     } catch (err) {
