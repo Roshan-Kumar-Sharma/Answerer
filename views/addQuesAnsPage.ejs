@@ -49,7 +49,8 @@
                     <a
                         class="flex-sm-fill text-sm-center nav-link active"
                         aria-current="page"
-                        href="/api/v1/docs">Docs</a
+                        href="/api/v1/docs"
+                        >Docs</a
                     >
                     <a
                         class="flex-sm-fill text-sm-center nav-link active"
@@ -68,6 +69,7 @@
         >
             <h1 id="heading" class="display-3">Add Question</h1>
             <form class="" id="addQnA" action="return false;">
+                <!-- question -->
                 <div class="mb-3">
                     <label for="question" class="form-label">Question</label>
                     <textarea
@@ -81,6 +83,7 @@
                     ></textarea>
                 </div>
 
+                <!-- answeres -->
                 <div id="answers-container">
                     <div class="mb-3 answer-block">
                         <label for="answer1" class="form-label"
@@ -123,8 +126,107 @@
                             rows="10"
                         ></textarea>
                     </div>
+
+                    <div class="mb-3 d-none answer-block">
+                        <label for="answer4" class="form-label"
+                            >Add Answer 4 :</label
+                        >
+                        <textarea
+                            type="text"
+                            class="form-control"
+                            id="answer3"
+                            placeholder="Enter Fourth Answer..."
+                            name="answers"
+                            rows="10"
+                        ></textarea>
+                    </div>
+
+                    <div class="mb-3 d-none answer-block">
+                        <label for="answer5" class="form-label"
+                            >Add Answer 5 :</label
+                        >
+                        <textarea
+                            type="text"
+                            class="form-control"
+                            id="answer3"
+                            placeholder="Enter Fifth Answer..."
+                            name="answers"
+                            rows="10"
+                        ></textarea>
+                    </div>
+
+                    <div class="mb-3 d-none answer-block">
+                        <label for="answer6" class="form-label"
+                            >Add Answer 6 :</label
+                        >
+                        <textarea
+                            type="text"
+                            class="form-control"
+                            id="answer3"
+                            placeholder="Enter Sixth Answer..."
+                            name="answers"
+                            rows="10"
+                        ></textarea>
+                    </div>
+
+                    <div class="mb-3 d-none answer-block">
+                        <label for="answer7" class="form-label"
+                            >Add Answer 7 :</label
+                        >
+                        <textarea
+                            type="text"
+                            class="form-control"
+                            id="answer3"
+                            placeholder="Enter Seventh Answer..."
+                            name="answers"
+                            rows="10"
+                        ></textarea>
+                    </div>
+
+                    <div class="mb-3 d-none answer-block">
+                        <label for="answer8" class="form-label"
+                            >Add Answer 8 :</label
+                        >
+                        <textarea
+                            type="text"
+                            class="form-control"
+                            id="answer3"
+                            placeholder="Enter Eighth Answer..."
+                            name="answers"
+                            rows="10"
+                        ></textarea>
+                    </div>
+
+                    <div class="mb-3 d-none answer-block">
+                        <label for="answer9" class="form-label"
+                            >Add Answer 9 :</label
+                        >
+                        <textarea
+                            type="text"
+                            class="form-control"
+                            id="answer3"
+                            placeholder="Enter Ninth Answer..."
+                            name="answers"
+                            rows="10"
+                        ></textarea>
+                    </div>
+
+                    <div class="mb-3 d-none answer-block">
+                        <label for="answer10" class="form-label"
+                            >Add Answer 10 :</label
+                        >
+                        <textarea
+                            type="text"
+                            class="form-control"
+                            id="answer3"
+                            placeholder="Enter Tenth Answer..."
+                            name="answers"
+                            rows="10"
+                        ></textarea>
+                    </div>
                 </div>
 
+                <!-- add/remove button -->
                 <div
                     id="add-delete-button"
                     class="d-flex mb-3 justify-content-center align-items-center"
@@ -142,6 +244,7 @@
                 </div>
 
                 <div class="row mb-3">
+                    <!-- subject -->
                     <div class="col mb-3">
                         <label class="form-label" for="subject">Subject</label>
                         <input
@@ -151,12 +254,15 @@
                             name="subject"
                             placeholder="Add/Select Subject Name..."
                             autocomplete="off"
+                            required
                         />
                         <datalist id="subject-list">
                             <option value="Subject 1"></option>
                             <option value="Subject 2"></option>
                         </datalist>
                     </div>
+
+                    <!-- topic -->
                     <div class="col mb-3">
                         <label class="form-label">Topic</label>
                         <input
@@ -166,6 +272,7 @@
                             name="topic"
                             placeholder="Add/Select Topic Name..."
                             autocomplete="off"
+                            required
                         />
                         <datalist id="topic-list">
                             <option value="Topic 1"></option>
@@ -175,6 +282,7 @@
                 </div>
 
                 <div class="row mb-3">
+                    <!-- username -->
                     <div class="col mb-3">
                         <label for="username" class="form-label"
                             >Username :</label
@@ -188,6 +296,8 @@
                             autocomplete="off"
                         />
                     </div>
+
+                    <!-- email -->
                     <div class="col mb-3">
                         <label for="author_email" class="form-label"
                             >E-mail :</label
@@ -199,20 +309,15 @@
                             name="author_email"
                             placeholder="Email address"
                             autocomplete="off"
+                            required
                         />
                     </div>
+
+                    <!-- rating -->
                     <div class="col mb-3">
                         <label for="rating" class="form-label"
                             >Rating(1-5) :</label
                         >
-                        <!-- <input
-                            type="text"
-                            class="form-control"
-                            id="rating"
-                            name="rating"
-                            placeholder="(1-5)"
-                            autocomplete="off"
-                        /> -->
                         <select
                             id="rating"
                             name="rating"

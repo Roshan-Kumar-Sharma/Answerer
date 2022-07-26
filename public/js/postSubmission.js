@@ -5,6 +5,8 @@ async function renderPage() {
     const id = location.pathname.split("/")[2];
     let post;
 
+    console.log(id);
+
     try {
         post = await fetch(`http://localhost:2000/api/v1/posts/${id}`);
         post = await post.json();
@@ -54,7 +56,7 @@ async function renderPage() {
             j + 1
         }-heading">
                     <div class="accordion-body" id="q${index}a${j + 1}">
-                        <div>${post[0].answers[j]}</div>
+                        <div>${post[0].answers[j].answer}</div>
                     </div>
                 </div>`);
 

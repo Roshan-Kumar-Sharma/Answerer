@@ -16,14 +16,21 @@ form.addEventListener("submit", async function (e) {
     }
     console.log(formData);
 
-    const res = await fetch("http://localhost:2000/api/v1/posts/add", {
+    const resData = await fetch("http://localhost:2000/api/v1/posts/add", {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
             "Content-type": "application/json",
         },
-    });
-    const resData = await res.json();
+    })
+        .then((response) => response.json())
+        .catch((error) => {
+            return error;
+        });
+    if (resData.error) {
+        console.trace(resData);
+        return;
+    }
     console.log(resData);
     console.log(resData._id);
 
