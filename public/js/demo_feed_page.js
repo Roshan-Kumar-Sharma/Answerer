@@ -28,7 +28,7 @@ async function fetchData() {
         currentPageNumber = 1;
 
         const dbResponse = await fetch(
-            `${location.origin}/api/v1/posts/fetch?sub=${sub}&&topic=${topic}&&page=${currentPageNumber}&&limit=${pageLimit}`
+            `${location.origin}/api/v1/posts/fetch?sub=${sub}&&topic=${topic}&&page=${currentPageNumber}&&limit=${pageLimit}&&answered=true`
         );
 
         const dbData = await dbResponse.json();
@@ -70,7 +70,7 @@ async function gotoPage(pageNumber) {
     console.log(pageNumber);
 
     const dbResponse = await fetch(
-        `${location.origin}/api/v1/posts/fetch?sub=${sub}&&topic=${topic}&&page=${pageNumber}&&limit=${pageLimit}`
+        `${location.origin}/api/v1/posts/fetch?sub=${sub}&&topic=${topic}&&page=${pageNumber}&&limit=${pageLimit}&&answered=true`
     );
 
     const rawData = await dbResponse.json();
