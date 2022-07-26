@@ -49,7 +49,8 @@
                     <a
                         class="flex-sm-fill text-sm-center nav-link active"
                         aria-current="page"
-                        href="/api/v1/docs">Docs</a
+                        href="/api/v1/docs"
+                        >Docs</a
                     >
                     <a
                         class="flex-sm-fill text-sm-center nav-link active"
@@ -72,7 +73,6 @@
 
         <div class="content d-flex bd-highlight justify-content-center">
             <!-- sidebar heading and content -->
-
             <div class="w-75 p-2 d-flex flex-column">
                 <!-- sub heading -->
                 <h1 id="sub-heading" class="mx-3 text-center">
@@ -187,28 +187,6 @@
                                 </div>
                             </div>
                             <% } %>
-
-                            <!-- <div class="accordion-item">
-                                <h2 class="accordion-header" id=`q${i+1}a2-heading`>
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target=`${q${i+1}a2h2}` aria-expanded="true" aria-controls=`${q${i+1}a2h2}`>Answer #2</button>
-                                </h2>
-                                <div id=`${q${i+1}a2h2}` class="accordion-collapse collapse show" aria-labelledby=`q${i+1}a3-heading`>
-                                    <div class="accordion-body" id=`q${i+1}a2`>
-                                        <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                                    </div>
-                                </div>
-                            </div> -->
-
-                            <!-- <div class="accordion-item">
-                                <h2 class="accordion-header" id=`q${i+1}a3-heading`>
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target=`${q${i+1}a3h3}` aria-expanded="true" aria-controls=`${q${i+1}a3h3}`>Answer #2</button>
-                                </h2>
-                                <div id=`${q${i+1}a3h3}` class="accordion-collapse collapse show" aria-labelledby=`q${i+1}a3-heading`>
-                                    <div class="accordion-body" id=`q${i+1}a3`>
-                                        <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                                    </div>
-                                </div>
-                            </div> -->
                         </div>
                     </div>
                     <% } %>
@@ -244,6 +222,67 @@
             </div>
         </div>
 
+        <!-- first modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Answer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div
+                    id="success-ans-add" class="d-flex align-items-center justify-content-center mt-2 d-none"
+                >
+                    <i class="fad fa-badge-check fa-3x"></i>
+                    <span class="ms-3 fs-3">Answer Added Successfully!!!</span>
+                </div>
+                <div class="modal-body">
+                    <form id="addAnswerForm">
+                        <div class="mb-3">
+                            <label for="question" class="form-label">Question: [ id : <span id="modal-ques-id" class="fw-bold"></span> ]</label>
+                            <textarea
+                                type="text"
+                                class="form-control shadow-none"
+                                id="question""
+                                name="question"
+                                rows="3"
+                                required
+                                disabled
+                            ></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="answer" class="col-form-label">New Answer:</label>
+                            <textarea class="form-control shadow-none" id="answer" name="answer" rows="5" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="col-form-label">Email:</label>
+                            <input type="email" class="form-control shadow-none" id="email" name="email" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary shadow-none" data-bs-dismiss="modal">Close</button>
+                    <button id="submit" form="addAnswerForm" type="button" class="btn btn-primary shadow-none" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Submit Answer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- second modal -->
+    <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="post-update" class="modal-body">
+                    <!-- heading -->
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
         <!-- Bootstrap v5.1.3 JS CDN -->
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -251,6 +290,6 @@
             crossorigin="anonymous"
         ></script>
 
-        <script src="/js/demo_feed_page.js"></script>
+        <script src="/js/unansweredQuestion.js"></script>
     </body>
 </html>
