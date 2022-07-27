@@ -4,3 +4,4 @@ rest.http
 toBeDeletedPages
 *.zip
 *.vscode
+.env.example
