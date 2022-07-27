@@ -20,15 +20,17 @@ window.onload = async function () {
 
 async function fetchData() {
     try {
-        // sub = document.getElementById("subject").innerText.trim();
-        // topic = document.getElementById("topic").innerText.trim();
-        sub = "dbms";
-        topic = "dbms";
+        const path = decodeURI(window.location.pathname);
+        const arr = path.split("/");
+        const sub = arr[3];
+        const topic = arr[5];
+
+        console.log(sub, topic);
 
         currentPageNumber = 1;
 
         const dbResponse = await fetch(
-            `${location.origin}/api/v1/posts/fetch?sub=${sub}&&topic=${topic}&&page=${currentPageNumber}&&limit=${pageLimit}&&answered=true`
+            `${location.origin}/api/v1/posts/fetch?sub=${sub}&topic=${topic}&page=${currentPageNumber}&limit=${pageLimit}&answered=true`
         );
 
         const dbData = await dbResponse.json();
@@ -38,21 +40,26 @@ async function fetchData() {
         ({ data, totalData } = dbData);
         console.log(data, totalData);
 
-        totalNumOfPages = Math.ceil(totalData / pageLimit);
+        if (totalData) {
+            totalNumOfPages = Math.ceil(totalData / pageLimit);
 
-        console.log("totalNumOfPages : ", totalNumOfPages);
+            console.log("totalNumOfPages : ", totalNumOfPages);
 
-        numberOfPageButtons = totalNumOfPages > 10 ? 10 : totalNumOfPages;
+            numberOfPageButtons = totalNumOfPages > 10 ? 10 : totalNumOfPages;
 
-        console.log("numberOfPageButtons : ", numberOfPageButtons);
+            console.log("numberOfPageButtons : ", numberOfPageButtons);
 
-        createCurrentPageData(currentPageNumber);
-        createPageNumberButtons(currentPageNumber);
+            createCurrentPageData(currentPageNumber);
+            createPageNumberButtons(currentPageNumber);
 
-        prev = document.getElementById("prev");
-        last = document.getElementById("last");
-        first = document.getElementById("first");
-        next = document.getElementById("next");
+            prev = document.getElementById("prev");
+            last = document.getElementById("last");
+            first = document.getElementById("first");
+            next = document.getElementById("next");
+        } else {
+            quesAnsSection.innerHTML = `<p class="d-flex justify-content-center">No Question Is Available Right Now...<p>`;
+            gotoInput.value = "";
+        }
     } catch (error) {
         console.log(error);
     }
@@ -76,11 +83,16 @@ async function gotoPage(pageNumber) {
     const rawData = await dbResponse.json();
     data = rawData.data;
 
-    prevPageNumber = currentPageNumber;
-    currentPageNumber = pageNumber;
+    if (data.length) {
+        prevPageNumber = currentPageNumber;
+        currentPageNumber = pageNumber;
 
-    createCurrentPageData(pageNumber);
-    createPageNumberButtons(pageNumber);
+        createCurrentPageData(pageNumber);
+        createPageNumberButtons(pageNumber);
+    } else {
+        quesAnsSection.innerHTML = `<p class="d-flex justify-content-center">No Question Is Available Right Now...<p>`;
+        gotoInput.value = "";
+    }
 }
 
 function createCurrentPageData(pageNumber) {

@@ -37,13 +37,21 @@ router.get("/fetch", async (req, res, next) => {
 
         // console.log(Post);
 
-        const data = await Post.find({ is_answered: answered })
+        const data = await Post.find({
+            subject: sub,
+            topic: topic,
+            is_answered: answered,
+        })
             .skip((page - 1) * limit)
             .limit(limit);
 
         console.log(data);
 
-        const totalData = await Post.find({ is_answered: answered }).count();
+        const totalData = await Post.find({
+            subject: sub,
+            topic: topic,
+            is_answered: answered,
+        }).count();
 
         console.log(page, limit, totalData);
         res.send({ data, totalData });

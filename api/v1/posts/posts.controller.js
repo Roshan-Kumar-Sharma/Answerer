@@ -11,10 +11,10 @@ exports.getPosts = async (req, res, next) => {
     let query = Post.find({});
 
     if (value.subject !== undefined) {
-        query = query.where("subject").equals(value.subject);
+        query = query.where("subject").equals(_.toLower(value.subject));
     }
     if (value.topic !== undefined) {
-        query = query.where("topic").equals(value.topic);
+        query = query.where("topic").equals(_.toLower(value.topic));
     }
     if (value.offset !== undefined) {
         let offset = Math.max(value.offset, 0);
@@ -160,11 +160,13 @@ exports.updatePostAnswer = async (req, res, next) => {
 
         console.log(updatedPost);
 
-        const participant_emails = [ _.toLower(updatedPost.author_email) ];
-        for(const answer of updatedPost.answers) {
-            if(answer.answer
-                && answer.author_email
-                && !participant_emails.includes(_.toLower(answer.author_email))) {
+        const participant_emails = [_.toLower(updatedPost.author_email)];
+        for (const answer of updatedPost.answers) {
+            if (
+                answer.answer &&
+                answer.author_email &&
+                !participant_emails.includes(_.toLower(answer.author_email))
+            ) {
                 participant_emails.push(_.toLower(answer.author_email));
             }
         }
@@ -173,17 +175,18 @@ exports.updatePostAnswer = async (req, res, next) => {
 
         const fullUrl = urlUtils.getFullUrl(req);
 
-        for(const email of participant_emails) {
+        for (const email of participant_emails) {
             const mailOptions = {
                 from: `Q&A Place <${SMTP_AUTH_USER}>`,
                 to: email,
-                subject: `New answer was added to question #${_.truncate(updatedPost.question, { length: 30 })} [Q&A Website]`,
+                subject: `New answer was added to question #${_.truncate(
+                    updatedPost.question,
+                    { length: 30 }
+                )} [Q&A Website]`,
                 html: `
 <div>
   <p>Hello,<br/>&nbsp;&nbsp;&nbsp;&nbsp;A new answer was added to the question to which you contributed.
-The link to the question: ${
-      fullUrl + "/questions/" + updatedPost._id
-  }</p>
+The link to the question: ${fullUrl + "/questions/" + updatedPost._id}</p>
 </div>
             `,
             };
