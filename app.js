@@ -22,6 +22,6 @@ app.use((err, req, res, next) => {
     });
 });
 
-app.listen(2000, () => {
+app.listen(process.env.PORT || 2000, () => {
     console.log("server is up at 2000");
 });
