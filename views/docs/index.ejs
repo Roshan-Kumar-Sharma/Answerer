@@ -1,164 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Answerer</title>
+        <link rel="stylesheet" href="/css/homePage.css" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Answerer</title>
-  <link rel="stylesheet" href="/css/homePage.css">
-  <!-- <script src="https://kit.fontawesome.com/f72b2c9263.js" crossorigin="anonymous"></script> -->
+        <!-- Font Awesome CDN -->
 
+        <link
+            rel="stylesheet"
+            href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+            integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+            crossorigin="anonymous"
+        />
 
-  <!-- Font Awesome CDN -->
+        <!-- Bootstrap v5.1.3 CDN -->
 
-  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/default.min.css"
+        />
 
-  <!-- Bootstrap v5.1.3 CDN -->
+        <style>
+            .docs-table td {
+                min-width: 4rem;
+            }
+        </style>
+    </head>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/default.min.css">
+    <body>
+        <nav class="navbar sticky-top navbar-light bg-light">
+            <div
+                class="container-fluid d-flex justify-content-space align-items-center"
+            >
+                <h1 id="heading" class="display-1">Answerer</h1>
+                <nav class="nav flex-column flex-sm-row">
+                    <a
+                        class="flex-sm-fill text-sm-center nav-link active"
+                        aria-current="page"
+                        href="/"
+                        >Home</a
+                    >
+                    <a
+                        class="flex-sm-fill text-sm-center nav-link active"
+                        aria-current="page"
+                        href="/unanswered"
+                        >Unanswered</a
+                    >
+                    <a
+                        class="flex-sm-fill text-sm-center nav-link active"
+                        aria-current="page"
+                        href="/api/v1/docs"
+                        >Docs</a
+                    >
+                    <a
+                        class="flex-sm-fill text-sm-center nav-link active"
+                        aria-current="page"
+                        href="/posts/add"
+                        >Add Question</a
+                    >
+                </nav>
+            </div>
+        </nav>
 
-  <style>
-    .docs-table td {
-      min-width: 4rem;
-    }
-  </style>
-</head>
+        <div class="d-flex flex-column bd-highlight p-2 container-fluid">
+            <div class="w-100">
+                <form id="test-api-call" class="container">
+                    <h1 class="my-2">Try it</h1>
+                    <p class="mt-2 pt-1">
+                        Run this code here, in a console or from any site:
+                    </p>
 
-<body>
-  <nav class="navbar sticky-top navbar-light bg-light">
-    <div class="container-fluid d-flex justify-content-space align-items-center">
-      <h1 id="heading" class="display-1">Answerer</h1>
-      <nav class="nav flex-column flex-sm-row">
-        <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" href="/">Home</a>
-        <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" href="/api/v1/docs">Docs</a>
-        <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" href="#">QnA</a>
-        <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" href="/posts/add">Add Question</a>
-        <!-- <a class="flex-sm-fill text-sm-center nav-link" href="#">Login</a>
-                <a class="flex-sm-fill text-sm-center nav-link" href="#">Signup</a> -->
-      </nav>
-    </div>
-    <!-- <div class="container-fluid d-flex justify-content-center align-items-center">
-            
-        </div> -->
-  </nav>
+                    <div class="gap-1 d-flex flex-row align-items-start">
+                        <select
+                            class="form-select form-select-sm"
+                            id="api-subject"
+                        >
+                            <option value="-1" selected>- Subject -</option>
 
-  <div class="d-flex flex-column bd-highlight p-2 container-fluid">
-    <div class="w-100">
-      <form id="test-api-call" class="container">
-        <h1 class="my-2">Try it</h1>
-        <p class="mt-2 pt-1">Run this code here, in a console or from any site:</p>
+                            <% for(let i=0; i < filterData.allSubjects.length;
+                            i++) { %>
+                            <option value="<%= filterData.allSubjects[i] %>">
+                                <%= filterData.allSubjects[i] %>
+                            </option>
+                            <% } %>
+                        </select>
 
-        <div class="gap-1 d-flex flex-row align-items-start">
-          <select class="form-select form-select-sm" id="api-subject">
-            <option value="-1" selected>- Subject -</option>
+                        <select
+                            class="form-select form-select-sm"
+                            id="api-topic"
+                        >
+                            <option value="-1" selected>- Topic -</option>
 
-            <% for(let i=0; i < filterData.allSubjects.length; i++) { %>
-              <option value="<%= filterData.allSubjects[i] %>">
-                <%= filterData.allSubjects[i] %>
-              </option>
-            <% } %>
-          </select>
+                            <% for(let i=0; i < filterData.allTopics.length;
+                            i++) { %>
+                            <option value="<%= filterData.allTopics[i] %>">
+                                <%= filterData.allTopics[i] %>
+                            </option>
+                            <% } %>
+                        </select>
 
-          <select class="form-select form-select-sm" id="api-topic">
-            <option value="-1" selected>- Topic -</option>
+                        <select
+                            class="form-select form-select-sm"
+                            id="api-limit"
+                        >
+                            <option value="-1" selected>- Limit -</option>
 
-            <% for(let i=0; i < filterData.allTopics.length; i++) { %>
-              <option value="<%= filterData.allTopics[i] %>">
-                <%= filterData.allTopics[i] %>
-              </option>
-            <% } %>
-          </select>
+                            <% for(let i=0; i < filterData.limit.length; i++) {
+                            %>
+                            <option value="<%= filterData.limit[i] %>">
+                                <%= filterData.limit[i] %>
+                            </option>
+                            <% } %>
+                        </select>
+                    </div>
 
-          <select class="form-select form-select-sm" id="api-limit">
-            <option value="-1" selected>- Limit -</option>
+                    <div class="my-2 gap-1 d-flex flex-row align-items-start">
+                        <div class="w-100 d-flex">
+                            <label for="floatingInput"
+                                ><small>Offset:&nbsp;&nbsp;</small></label
+                            >
+                            <input
+                                type="text"
+                                class="form-control form-control-sm"
+                                id="api-offset"
+                                value=""
+                                placeholder="Enter offset"
+                            />
+                        </div>
 
-            <% for(let i=0; i < filterData.limit.length; i++) { %>
-              <option value="<%= filterData.limit[i] %>">
-                <%= filterData.limit[i] %>
-              </option>
-            <% } %>
-          </select>
-        </div>
+                        <select
+                            class="form-select form-select-sm"
+                            id="api-is-answered"
+                        >
+                            <option value="-1" selected>- Answered -</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
 
-        <div class="my-2 gap-1 d-flex flex-row align-items-start">
-          <div class="w-100 d-flex">
-            <label for="floatingInput"><small>Offset:&nbsp;&nbsp;</small></label>
-            <input type="text" class="form-control form-control-sm" id="api-offset" value="" placeholder="Enter offset">
-          </div>
-
-          <select class="form-select form-select-sm" id="api-is-answered">
-            <option value="-1" selected>- Answered -</option>
-            <option value="true">Yes</option>
-            <option value="false">No</option>
-          </select>
-        </div>
-
-        <!-- code section  -->
-        <div class="m-0 p-0">
-          <pre class="m-0 p-0">
+                    <!-- code section  -->
+                    <div class="m-0 p-0">
+                        <pre class="m-0 p-0">
             <code class="language-javascript" id="api-call-js-code"></code>
           </pre>
-        </div>
+                    </div>
 
-        <button class="btn btn-primary" type="submit">Run Script</button>
+                    <button class="btn btn-primary" type="submit">
+                        Run Script
+                    </button>
 
-        <!-- output section  -->
-        <div class="m-0 p-0">
-          <pre class="m-0 p-0">
+                    <!-- output section  -->
+                    <div class="m-0 p-0">
+                        <pre class="m-0 p-0">
             <code class="language-json" id="api-call-output" style="height: 20rem; overflow: scroll;">Loading...</code>
           </pre>
+                    </div>
+                </form>
+            </div>
+            <main class="container mx-auto max-w-4xl">
+                <h2>Routes</h2>
+                <p>
+                    Here are some examples on how to use the API. You can use
+                    http or https for your requests.
+                </p>
+                <table class="docs-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>GET</td>
+                            <td><a href="/api/v1/posts">/posts</a></td>
+                        </tr>
+                        <tr>
+                            <td>GET</td>
+                            <td>
+                                <a href="/api/v1/posts?subject=subject_name"
+                                    >/posts?subject=subject_name</a
+                                >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>GET</td>
+                            <td>
+                                <a
+                                    href="/api/v1/posts?subject=subject_name&topic=topic_name"
+                                    >/posts?subject=subject_name&topic=topic_name</a
+                                >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>GET</td>
+                            <td>
+                                <a
+                                    href="/api/v1/posts?subject=subject_name&topic=topic_name&limit=10&offset=5&is_answered=false"
+                                    >/posts?subject=subject_name&topic=topic_name&limit=10&offset=5&is_answered=false</a
+                                >
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </main>
         </div>
-      </form>
-    </div>
-    <main class="container mx-auto max-w-4xl">
-      <h2>Routes</h2>
-      <p>Here are some examples on how to use the API. You can use http or https for your requests.</p>
-      <table class="docs-table">
-        <thead>
-          <tr>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>GET</td>
-            <td><a href="/api/v1/posts">/posts</a></td>
-          </tr>
-          <tr>
-            <td>GET</td>
-            <td><a href="/api/v1/posts?subject=subject_name">/posts?subject=subject_name</a></td>
-          </tr>
-          <tr>
-            <td>GET</td>
-            <td><a href="/api/v1/posts?subject=subject_name&topic=topic_name">/posts?subject=subject_name&topic=topic_name</a></td>
-          </tr>
-          <tr>
-            <td>GET</td>
-            <td><a href="/api/v1/posts?subject=subject_name&topic=topic_name&limit=10&offset=5&is_answered=false">/posts?subject=subject_name&topic=topic_name&limit=10&offset=5&is_answered=false</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </main>
-  </div>
 
-  <!-- Bootstrap v5.1.3 JS CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-    crossorigin="anonymous"></script>
+        <!-- Bootstrap v5.1.3 JS CDN -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"
+        ></script>
 
-  <!-- syntax highlighting  -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
-  <!-- and it's easy to individually load additional languages -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/languages/javascript.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/languages/json.min.js"></script>
-  <script src="/js/docs/main.js"></script>
+        <!-- syntax highlighting  -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+        <!-- and it's easy to individually load additional languages -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/languages/javascript.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/languages/json.min.js"></script>
+        <script src="/js/docs/main.js"></script>
 
-  <!-- <script src="../public/js/demo_addQues_page.js"></script> -->
-</body>
-
+        <!-- <script src="../public/js/demo_addQues_page.js"></script> -->
+    </body>
 </html>

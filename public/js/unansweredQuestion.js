@@ -20,10 +20,8 @@ window.onload = async function () {
 
 async function fetchData() {
     try {
-        // sub = document.getElementById("subject").innerText.trim();
-        // topic = document.getElementById("topic").innerText.trim();
-        sub = "dbms";
-        topic = "dbms";
+        sub = "";
+        topic = "";
 
         currentPageNumber = 1;
 
@@ -104,8 +102,6 @@ function createCurrentPageData(pageNumber) {
 
     index = (pageNumber - 1) * pageLimit + 1;
     currentPageData = data;
-
-    // console.log(currentPageData, Object.entries(currentPageData[0])[3][0]);
 
     for (let i = 0; i < pageLimit && i < currentPageData.length; i++, index++) {
         eachQnAContainer = HTML(

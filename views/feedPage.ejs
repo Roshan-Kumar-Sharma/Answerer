@@ -62,43 +62,6 @@
             
             <!-- question answer -->
             <div id="ques-ans-section" class="container-fluid">
-                <% for(let i=0; i<10; i++) {%>
-                    <div class="mb-5 border border-secondary">
-                        <!-- question -->
-                        <div class="container-fluid questions" id="<%= `question${i+1}` %>">
-                            <h5 class="text-secondary">Question: <%= `${i+1}` %></h5>
-                            <h5></h5>
-                            <span class="text-dark fw-bold me-3 py-1 px-2 border border-dark rounded">id: <%= `${i+1}` %></span>
-                            <button type="button" class="btn btn-outline-dark btn-sm shadow-none me-1">Recommend Answer</button>
-                            <button type="button"  class="btn btn-outline-dark btn-sm" disabled>Add New Answer</button>
-                        </div>
-                        
-                        <!-- answer accordian -->
-                        <div class="accordion answers">
-                            <% for(let j=0; j<3; j++) {%>
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="<%= `q${i+1}a${j+1}-heading` %>">
-                                        <div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="<%= `#q${i+1}a${j+1}h${j+1}` %>" aria-expanded="true" aria-controls="<%= `q${i+1}a${j+1}h${j+1}` %>">Answer #<%= `${j+1}` %></div>
-                                    </h2>
-                                    <div id="<%= `q${i+1}a${j+1}h${j+1}` %>" class="accordion-collapse collapse" aria-labelledby="<%= `q${i+1}a${j+1}-heading` %>">
-                                        <div class="accordion-body" id="<%= `q${i+1}a${j+1}` %>">
-                                            <div>
-                                                <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                                            </div>
-                                            <div>
-                                                <button class="me-2 mt-2 btn btn-sm btn-outline-info">Report</button>
-                                                <button class="me-2 mt-2 btn btn-sm btn-outline-info">Like</button>
-                                                <button class="me-2 mt-2 btn btn-sm btn-outline-info">Dislike</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            <% } %>
-    
-    
-                        </div>
-                    </div>
-                <% } %>  
             </div>
 
             <!-- pagination -->

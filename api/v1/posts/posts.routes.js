@@ -10,20 +10,9 @@ const {
     validateGetPostsMiddleware,
 } = require("./posts.middleware");
 const router = express.Router();
-// const topicsDetails = require("../../../configs/other.details");
 const { Movies } = require("./posts.model");
 
 const { Post } = require("./posts.model");
-
-// router.post("/add", (req, res, next) => {
-//     for (let i = 0; i < 3; i++) {
-//         if (!req.body.answers[i]) {
-//             req.body.answers.splice(i, i + 1);
-//         }
-//     }
-//     console.log(req.body);
-//     res.send("post submiiteed");
-// });
 
 router.get("/", validateGetPostsMiddleware, getPosts);
 
@@ -36,22 +25,37 @@ router.get("/fetch", async (req, res, next) => {
         console.log(sub, topic, page, limit, answered);
 
         // console.log(Post);
+        let data, totalData;
 
-        const data = await Post.find({
-            subject: sub,
-            topic: topic,
-            is_answered: answered,
-        })
-            .skip((page - 1) * limit)
-            .limit(limit);
+        if (answered === "false") {
+            data = await Post.find({
+                is_answered: answered,
+            })
+                .skip((page - 1) * limit)
+                .limit(limit);
+
+            totalData = await Post.find({
+                is_answered: answered,
+            }).count();
+        } else if (answered === "true") {
+            data = await Post.find({
+                subject: sub,
+                topic: topic,
+                is_answered: answered,
+            })
+                .skip((page - 1) * limit)
+                .limit(limit);
+
+            totalData = await Post.find({
+                subject: sub,
+                topic: topic,
+                is_answered: answered,
+            }).count();
+        } else {
+            throw Error("Invalid request");
+        }
 
         console.log(data);
-
-        const totalData = await Post.find({
-            subject: sub,
-            topic: topic,
-            is_answered: answered,
-        }).count();
 
         console.log(page, limit, totalData);
         res.send({ data, totalData });

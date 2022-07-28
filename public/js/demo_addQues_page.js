@@ -16,7 +16,7 @@ form.addEventListener("submit", async function (e) {
     }
     console.log(formData);
 
-    const resData = await fetch("http://localhost:2000/api/v1/posts/add", {
+    const resData = await fetch(`${location.origin}/api/v1/posts/add`, {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
@@ -36,7 +36,7 @@ form.addEventListener("submit", async function (e) {
 
     // localStorage.setItem(resData._id, JSON.stringify(resData));
 
-    location.href = `http://localhost:2000/questions/${resData._id}`;
+    location.href = `${location.origin}/questions/${resData._id}`;
 });
 
 console.log(addQnA);
