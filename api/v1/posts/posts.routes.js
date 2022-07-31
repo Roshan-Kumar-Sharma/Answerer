@@ -40,7 +40,7 @@ router.get("/fetch", async (req, res, next) => {
             }
 
             query = query.where({
-                is_answered: answered,
+                is_answered: true,
             });
         } else {
             throw Error("Invalid request");
