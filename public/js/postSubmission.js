@@ -8,7 +8,7 @@ async function renderPage() {
     console.log(id);
 
     try {
-        post = await fetch(`http://localhost:2000/api/v1/posts/${id}`);
+        post = await fetch(`${location.origin}/api/v1/posts/${id}`);
         post = await post.json();
     } catch (error) {
         console.log(post);

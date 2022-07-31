@@ -1,6 +1,7 @@
 const express = require("express");
 const createHttpErrors = require("http-errors");
 const { createPostValidate, getPostsValidate } = require("./posts.validation");
+const _ = require("lodash");
 
 const validatePostMiddleware = async (req, res, next) => {
     console.log("I'm post middleware");
@@ -20,6 +21,9 @@ const validatePostMiddleware = async (req, res, next) => {
         }
         if (!req.body.username) req.body.username = "anonymous";
         if (!req.body.rating) req.body.rating = 1;
+
+        req.body.subject = _.toLower(req.body.subject);
+        req.body.topic = _.toLower(req.body.topic);
 
         console.log(req.body);
 

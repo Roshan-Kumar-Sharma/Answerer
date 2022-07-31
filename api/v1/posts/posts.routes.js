@@ -10,7 +10,6 @@ const {
     validateGetPostsMiddleware,
 } = require("./posts.middleware");
 const router = express.Router();
-const { Movies } = require("./posts.model");
 
 const { Post } = require("./posts.model");
 

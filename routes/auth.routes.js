@@ -98,12 +98,6 @@ module.exports = (app) => {
         console.log(field, sub, topics);
 
         if (topics) {
-            // for (let i = 0; i < sideItems.length; i++) {
-            //     sideItems_link[
-            //         i
-            //     ] = `http://${req.headers.host}/${field}/subjects/${sideItems[i]}/topics/`;
-            // }
-
             for (let i = 0; i < topics.length; i++) {
                 sideItems_link[
                     i
@@ -129,9 +123,48 @@ module.exports = (app) => {
 
     app.get("/posts/add", (req, res, next) => {
         const submitFormLink = `http://${req.headers.host}/api/v1/posts/add`;
-        // const subjects = Object.keys(topicsDetails.subjects);
+
+        // const subjects = Object.keys(fieldsDetails);
+        console.log(fieldsDetails);
         // const heading = "Add Question";
-        res.render("addQuesAnsPage", { submitFormLink });
+
+        const subjects = Object.entries(fieldsDetails).reduce(
+            (a, [field, { subjects }]) => {
+                a[field] = Object.keys(subjects) || [];
+                return a;
+            },
+            {}
+        );
+
+        console.log(subjects);
+
+        const allSubjects = Object.entries(subjects).reduce(
+            (a, [field, subjects]) => {
+                return [...a, ...subjects];
+            },
+            []
+        );
+
+        const allTopics = Object.entries(fieldsDetails).reduce(
+            (a, [field, { subjects }]) => {
+                // console.log(subjects);
+                return [
+                    ...a,
+                    ...Object.values(subjects)
+                        .map((subject) => subject.topicNames || [])
+                        .flat(),
+                ];
+            },
+            []
+        );
+
+        console.log(allSubjects, allTopics);
+
+        res.render("addQuesAnsPage", {
+            submitFormLink,
+            allSubjects,
+            allTopics,
+        });
     });
 
     app.use("/api/v1", require("../api/v1/apiv1.routes"));

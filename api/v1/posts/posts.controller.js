@@ -8,13 +8,16 @@ const _ = require("lodash");
 exports.getPosts = async (req, res, next) => {
     const { value } = req.validation;
 
-    let query = Post.find({});
+    let query = Post.find();
 
     if (value.subject !== undefined) {
         query = query.where("subject").equals(_.toLower(value.subject));
     }
     if (value.topic !== undefined) {
-        query = query.where("topic").equals(_.toLower(value.topic));
+        const topicValue = _.toLower(value.topic);
+        if (topicValue !== "all") {
+            query = query.where("topic").equals(_.toLower(topicValue));
+        }
     }
     if (value.offset !== undefined) {
         let offset = Math.max(value.offset, 0);

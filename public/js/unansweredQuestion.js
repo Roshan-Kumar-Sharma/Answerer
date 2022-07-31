@@ -294,16 +294,13 @@ async function addNewAnswer(e) {
         if (!formData.answer || !formData.email)
             throw Error("Answer Couldn't Added");
 
-        const res = await fetch(
-            "http://localhost:2000/api/v1/posts/addanswer",
-            {
-                method: "POST",
-                body: JSON.stringify(formData),
-                headers: {
-                    "Content-type": "application/json",
-                },
-            }
-        );
+        const res = await fetch(`${location.origin}/api/v1/posts/addanswer`, {
+            method: "POST",
+            body: JSON.stringify(formData),
+            headers: {
+                "Content-type": "application/json",
+            },
+        });
         const result = HTML(`<div
                         class="d-flex align-items-center justify-content-center my-3"
                     >

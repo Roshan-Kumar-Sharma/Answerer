@@ -257,8 +257,11 @@
                             required
                         />
                         <datalist id="subject-list">
-                            <option value="Subject 1"></option>
-                            <option value="Subject 2"></option>
+                            <% for(let i=0; i < allSubjects.length; i++) { %>
+                            <option value="<%= allSubjects[i] %>">
+                                <%= allSubjects[i] %>
+                            </option>
+                            <% } %>
                         </datalist>
                     </div>
 
@@ -275,8 +278,11 @@
                             required
                         />
                         <datalist id="topic-list">
-                            <option value="Topic 1"></option>
-                            <option value="Topic 2"></option>
+                            <% for(let i=0; i < allTopics.length; i++) { %>
+                            <option value="<%= allTopics[i] %>">
+                                <%= allTopics[i] %>
+                            </option>
+                            <% } %>
                         </datalist>
                     </div>
                 </div>
