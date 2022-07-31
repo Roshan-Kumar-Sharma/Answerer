@@ -10,6 +10,7 @@ const {
     validateGetPostsMiddleware,
 } = require("./posts.middleware");
 const router = express.Router();
+const _ = require("lodash");
 
 const { Post } = require("./posts.model");
 
@@ -26,33 +27,36 @@ router.get("/fetch", async (req, res, next) => {
         // console.log(Post);
         let data, totalData;
 
+        let query = Post.find();
+
         if (answered === "false") {
-            data = await Post.find({
-                is_answered: answered,
-            })
-                .skip((page - 1) * limit)
-                .limit(limit);
-
-            totalData = await Post.find({
-                is_answered: answered,
-            }).count();
+            query = query.where({ is_answered: false });
         } else if (answered === "true") {
-            data = await Post.find({
-                subject: sub,
-                topic: topic,
-                is_answered: answered,
-            })
-                .skip((page - 1) * limit)
-                .limit(limit);
+            if(sub !== undefined) {
+                query = query.where('subject', _.toLower(sub));
+            }
+            if(topic !== undefined) {
+                query = query.where('topic', _.toLower(topic));
+            }
 
-            totalData = await Post.find({
-                subject: sub,
-                topic: topic,
+            query = query.where({
                 is_answered: answered,
-            }).count();
+            });
         } else {
             throw Error("Invalid request");
         }
+
+        // Query which counts the total number of questions
+        // which have subject=sub and topic=topic
+        const counterQuery = query.clone();
+
+        query = query
+            .skip((page - 1) * limit)
+            .limit(limit);
+
+        data = await query.exec();
+        totalData = await counterQuery.count()
+            .catch(error => 0);
 
         console.log(data);
 
