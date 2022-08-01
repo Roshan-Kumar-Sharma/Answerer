@@ -18,13 +18,14 @@ window.onload = async function () {
     await fetchData();
 };
 
+const path = decodeURI(window.location.pathname);
+const arr = path.split("/");
+console.log('arr: ', arr);
+sub = arr[3];
+topic = arr[5];
+
 async function fetchData() {
     try {
-        const path = decodeURI(window.location.pathname);
-        const arr = path.split("/");
-        const sub = arr[3];
-        const topic = arr[5];
-
         console.log(sub, topic);
 
         currentPageNumber = 1;

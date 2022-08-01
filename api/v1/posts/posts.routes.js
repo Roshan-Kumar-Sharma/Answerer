@@ -36,7 +36,10 @@ router.get("/fetch", async (req, res, next) => {
                 query = query.where('subject', _.toLower(sub));
             }
             if(topic !== undefined) {
-                query = query.where('topic', _.toLower(topic));
+                const topic_ = _.toLower(topic);
+                if(topic_ !== 'all') {
+                    query = query.where('topic', topic_);
+                }
             }
 
             query = query.where({
