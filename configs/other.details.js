@@ -29,8 +29,22 @@ module.exports = {
     },
     "programming languages": {
         subjects: {
-            cpp: {},
-            python: {},
+            cpp: {
+                topicNames: [
+                    "Inheritance",
+                    "Templates",
+                    "OOP",
+                    "Lambda Expression"
+                ]
+            },
+            python: {
+                topicNames: [
+                    "OOP",
+                    "Django",
+                    "PyTorch",
+                    "Asynchronous Programming"
+                ]
+            },
         },
     },
 };
